@@ -1,0 +1,6 @@
+if (-e "a.txt") {
+  printf("hi")
+}
+else {
+  printf("hello")
+}

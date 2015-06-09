@@ -1,0 +1,453 @@
+""" pathogen
+" execute pathogen#infect()
+" execute pathogen#helptags()
+
+""" vim-plug
+let complete_these_ = ['python', 'vim', 'c', 'c++', 'ruby', 'txt', 'sh', 'markdown', 'html']
+let easy_grep_on_demand_ = [
+      \ "<Plug>EgMapReplaceSelection_R",
+      \ "<Plug>EgMapReplaceCurrentWord_R",
+      \ "<Plug>EgMapReplaceSelection_r",
+      \ "<Plug>EgMapReplaceCurrentWord_r",
+      \ "<Plug>EgMapGrepSelection_V",
+      \ "<Plug>EgMapGrepCurrentWord_V",
+      \ "<Plug>EgMapGrepSelection_v",
+      \ "<Plug>EgMapGrepCurrentWord_v",
+      \ "<Plug>EgMapGrepOptions",
+      \ "Grep"
+      \ ]
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-eunuch'
+" Plug 'tpope/vim-rsi' " this produce wired behaviour when escape from insert
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-scriptease'
+Plug 'kien/ctrlp.vim'
+Plug 'bling/vim-airline'
+Plug 'mbbill/undotree'
+" Plug 'wellle/targets.vim'
+" Plug 'rhysd/clever-f.vim'
+Plug 'rbgrouleff/bclose.vim'
+Plug 'junegunn/vim-peekaboo'
+Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/seoul256.vim'
+Plug 'mhinz/vim-startify'
+Plug 'ervandew/supertab'
+Plug 'Lokaltog/vim-easymotion', {'on': '<Plug>(easymotion-bd-w)'}
+Plug 'dohsimpson/vim-macroeditor', {'on': 'MacroEdit'}
+Plug 'vim-scripts/BufOnly.vim', {'on': 'BufOnly'}
+Plug '~/.vim/plugged/vim-easygrep', {'on': easy_grep_on_demand_}
+" programming languages
+Plug 'scrooloose/syntastic', {'for': complete_these_}
+Plug 'majutsushi/tagbar', {'for': complete_these_}
+Plug 'dohsimpson/vim-snipmate' | Plug 'MarcWeber/vim-addon-mw-utils' | Plug 'tomtom/tlib_vim'
+Plug 'nathanaelkane/vim-indent-guides', {'for': complete_these_}
+Plug 'michaeljsmith/vim-indent-object', {'for': complete_these_}
+Plug 'fs111/pydoc.vim', {'for': 'python'}
+Plug 'othree/html5.vim', {'for': 'html'}
+Plug 'ap/vim-css-color', {'for': 'css'}
+Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
+" Plug 'mattn/emmet-vim'
+" miscellaneous
+Plug 'mjbrownie/browser.vim', {'on': 'WebBrowser'}
+Plug 'scrooloose/nerdtree'
+" testing
+Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
+" Plug 'joonty/vdebug'
+Plug 'tpope/vim-dispatch'
+Plug 'rizzatti/dash.vim', {'for': complete_these_}
+" Plug 'tpope/vim-vinegar'
+" Plug 'kana/vim-submode'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'tpope/vim-speeddating', {'on': 'SpeeddateOn'}
+Plug 'justinmk/vim-gtfo'
+Plug '~/.vim/plugged/python-make', {'for': 'python'}
+Plug 'alfredodeza/pytest.vim', {'for': 'python', 'on': 'Pytest'}
+Plug 'reinh/vim-makegreen', {'for': complete_these_}
+Plug '~/.vim/plugged/python-mode-extracted', {'for': 'python'}
+" Plug '5long/pytest-vim-compiler', {'for': 'python'}
+" Plug 'nanotech/jellybeans.vim'
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'rking/ag.vim', {'on': 'Ag'}
+Plug 'AndrewRadev/linediff.vim'
+Plug 'AndrewRadev/switch.vim'
+Plug 'AndrewRadev/sideways.vim'
+" Plug 'AndrewRadev/writable_search.vim'
+Plug 'stefandtw/quickfix-reflector.vim'
+Plug 'myusuf3/numbers.vim'
+Plug 'vim-scripts/gitignore.vim'
+call plug#end()
+
+""" basic
+"" Remove ALL autocommands for the current group.
+autocmd!
+set nocompatible
+" filetype indent plugin on " this is already turned on by vim-sensible
+runtime macros/matchit.vim
+syntax on
+set number
+set nrformats=hex,alpha
+set hidden
+set title " set terminal window title
+set directory=~/.vim/swp,.
+set lazyredraw
+set ts=4 sts=4 sw=4 et
+set shortmess=at
+set shell=/bin/zsh
+set noswapfile
+
+""" scroll (faster)
+set scrolloff=3
+nnoremap <C-e> 3<C-e>
+nnoremap <C-y> 3<C-y>
+
+""" use ',' as mapleader
+let mapleader = ","
+
+""" source other vimrc files
+source $HOME/.vim/plugvimrc
+source $HOME/.vim/abbrvimrc
+source $HOME/.vim/tempvimrc
+source $HOME/.vim/colorvimrc
+source $HOME/.vim/temp/vimlib.vim
+
+""" status line
+set laststatus=2
+" set statusline=%<%f\ %h%m%r%=[%l/%L]\ %q%y\ %%%p
+
+""" autocomplete
+set wildignore+=*.a,*.o
+set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
+set wildignore+=.DS_Store,.git,.hg,.svn
+set wildignore+=*~,*.swp,*.tmp
+
+""" enable mouse
+set mouse+=a
+if &term =~ '^screen'
+    " tmux knows the extended mouse mode
+    set ttymouse=xterm2
+endif
+
+""" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+
+""" history
+set history=1000
+set undodir=~/.vim/undodir
+set undofile
+set undolevels=1000
+set undoreload=10000
+set autoread
+set autowrite
+
+""" mapleader mapping
+nnoremap <leader>vcp :edit $HOME/.vim/plugvimrc<CR>
+nnoremap <leader>vsp :source $HOME/.vim/plugvimrc<CR>
+nnoremap <leader>vct :edit $HOME/.vim/tempvimrc<CR>
+nnoremap <leader>vst :source $HOME/.vim/tempvimrc<CR>
+nnoremap <leader>vca :edit $HOME/.vim/abbrvimrc<CR>
+nnoremap <leader>vcc :edit $MYVIMRC<CR>
+nnoremap <leader>vsc :source $MYVIMRC<CR>
+nnoremap <leader>vcf :edit $HOME/.vim/ftplugin<CR>
+
+""" search(grep)
+" "" change grep to ack/ag if possible
+" if executable("ag")
+"   set grepprg=ag\ --vimgrep
+"   set grepformat="%f:%l:%c:%m"
+" " elseif executable("ack")
+" "   set grepprg=ack\ --nogroup\ --column\ $*
+" "   set grepformat=%f:%l:%c:%m
+" endif
+set hlsearch incsearch ignorecase smartcase
+nnoremap <leader>nh :nohlsearch<CR>
+nnoremap <leader>hl :set hlsearch<CR>
+nnoremap <leader>hc :%s///gn<CR>
+xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call <SID>VSetSearch()<CR>?<C-R>=@/<CR><CR>
+
+""" indent
+set smartindent
+
+""" diff
+set diffopt+=vertical
+command! DiffOriginal call s:DiffOriginal()
+
+""" subsititue
+nnoremap & :&&<CR>
+xnoremap & :&&<CR>
+
+""" argument list
+nnoremap <silent> <leader>a :args<CR>
+nnoremap <silent> [a :previous<CR>
+nnoremap <silent> ]a :next<CR>
+nnoremap <silent> [A :first<CR>
+nnoremap <silent> ]A :last<CR>
+
+""" tag list
+"nnoremap <silent> <leader>t :tselect<CR>
+nnoremap <silent> [t :tprevious<CR>
+nnoremap <silent> ]t :tnext<CR>
+nnoremap <silent> [T :tfirst<CR>
+nnoremap <silent> ]T :tlast<CR>
+
+""" buffer list
+nnoremap <silent> <leader>b :ls<CR>
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [B :bfirst<CR>
+nnoremap <silent> ]B :blast<CR>
+
+""" location list
+" nnoremap <silent> <leader>l :lopen<CR>
+nnoremap <silent> [l :lprevious<CR>
+nnoremap <silent> ]l :lnext<CR>
+nnoremap <silent> [L :lfirst<CR>
+nnoremap <silent> ]L :llast<CR>
+
+""" quickfix list
+" nnoremap <silent> <leader>q :copen<CR>
+nnoremap <silent> [q :cprevious<CR>
+nnoremap <silent> ]q :cnext<CR>
+nnoremap <silent> [Q :cfirst<CR>
+nnoremap <silent> ]Q :clast<CR>
+command! -nargs=0 -bar Qargs execute 'args' <SID>QuickfixFilenames()
+" command! Coldest :colder 1000<CR>
+" command! Cnewest :cnewer 1000<CR>
+
+""" window
+nnoremap ` <C-w>
+nnoremap `` <C-w>p
+
+""" session
+command! LoadSession call <SID>LoadSession()
+command! SaveSession call <SID>SaveSession()
+
+""" autocmd
+"" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
+"" filetype specific
+autocmd FileType vim set keywordprg= ts=2 sts=2 sw=2 et
+autocmd FileType ruby setlocal ts=2 sts=2 sw=2 et
+autocmd FileType python setlocal ts=4 sts=4 sw=4 et
+autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noet
+autocmd FileType html setlocal ts=2 sts=2 sw=2 noet
+autocmd FileType css setlocal ts=2 sts=2 sw=2 noet
+autocmd FileType c setlocal ts=4 sts=4 sw=4 et
+autocmd FileType help setlocal et
+autocmd FileType help nnoremap <buffer> <CR> <C-]>
+" autocmd BufNewFile,BufRead .gitignore set filetype=gitignore
+
+""" function definitions
+"" visual search word under cursor
+function! s:VSetSearch()
+	let temp = @s
+	norm! gv"sy
+	let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
+	let @s = temp
+endfunction
+"" Delete trailing white space on save, useful for Python and CoffeeScript ;)
+func! s:DeleteTrailingWS()
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
+endfunc
+function! s:LoadSession()
+perl << EOD
+use Digest::MD5 qw(md5_hex);
+use Cwd;
+my $session_md5_hash = md5_hex(cwd());
+my $session_path = "$ENV{HOME}/.vim/sessions/$session_md5_hash.session";
+if (-e $session_path) {
+  VIM::DoCommand("source $session_path");
+  VIM::DoCommand("echo \"Session loaded from: $session_path\"");
+  }
+else {
+  VIM::DoCommand("echo \"[!] No session for current directory\"");
+  }
+EOD
+endfunction
+function! s:SaveSession()
+perl << EOD
+use Digest::MD5 qw(md5_hex);
+use Cwd;
+my $session_md5_hash = md5_hex(cwd());
+my $session_path = "$ENV{HOME}/.vim/sessions/$session_md5_hash.session";
+VIM::DoCommand("mksession! $session_path");
+VIM::DoCommand("echo \"Session saved to: $session_path\"");
+EOD
+endfunction
+function! s:QuickfixFilenames()
+  let buffer_numbers = {}
+  for quickfix_item in getqflist()
+    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
+  endfor
+  return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
+endfunction
+function! s:DiffOriginal()
+  let filetype=&ft
+  diffthis
+  vnew | r # | normal! 1Gdd
+  diffthis
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+function! s:FilterQuickfixList(bang, pattern)
+  let cmp = a:bang ? '!~#' : '=~#'
+  call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . cmp . " a:pattern"))
+endfunction
+" QuickFixFilter pattern to filter
+" QuickFixFilter! pattern to reverse filter
+command! -bang -nargs=1 -complete=file Qfilter call s:FilterQuickfixList(<bang>0, <q-args>)
+function! RunCmdRegister(cmd)
+  " helper function to register the command to execute to run this buffer
+  " run command is a filetype dependent Ex command and should be defined in
+  " ftplugin/<some_file_type>.vim
+  " Example Usage
+  "   RunCmdRegister("!python %")
+  execute 'command! -buffer -nargs=* -complete=file Run '.a:cmd.' <args>'
+  nnoremap <buffer> <silent> ! :Run<CR>
+endfunction
+function! OutputSplitWindow(...)
+  " this function output the result of the Ex command into a split scratch buffer
+  let cmd = join(a:000, ' ')
+  echom cmd
+  if cmd[0] == '!' " shell command
+    let cmd = strpart(cmd, 1)
+    let output = system(cmd)
+  else
+    let temp_reg = @"
+    redir @"
+    silent! execute cmd
+    redir END
+    let output = copy(@")
+    let @" = temp_reg
+  endif
+  if empty(output)
+    echoerr "no output"
+  else
+    new
+    setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted
+    put! =output
+  endif
+endfunction
+command! -nargs=+ -complete=command Output call OutputSplitWindow(<f-args>)
+function! ResizeWindowOperator(type, ...)
+  " After using an operator, the cursor is put at the
+  " start of the operated text, so I think this is okay.
+  let start_line = line('.')
+  if a:0
+    let end_line = line("'>")
+  else
+    let end_line = line("']")
+  endif
+  execute "resize ".(end_line-start_line+1)
+  normal! zt
+endfunction
+nnoremap <silent> zS :set operatorfunc=ResizeWindowOperator<CR>g@
+vnoremap <silent> zS :<C-u>call ResizeWindowOperator(visualmode(), 1)<CR>
+autocmd VimResized * :wincmd =
+function! TodoList()
+  " collect TODO, FIXME, XXX into a quickfix list
+  silent execute "vimgrep \"TODO\\|FIXME\\|XXX\" " . expand('%')
+  copen
+endfunction
+command! Todo call TodoList()
+function! Objective(bang, ...)
+  " add new objective to achieve today!
+  function! Show()
+      for i in range(len(g:objectives))
+          let mes = g:objectives[i]
+          echo i . '. ' . mes
+      endfor
+  endfunction
+  if !exists("g:objectives")
+      let g:objectives = []
+  endif
+  let user_in = join(a:000, " ")
+  if empty(a:bang)
+      if empty(user_in)
+          call Show()
+      else
+          call add(g:objectives, user_in)
+      endif
+  else
+      if empty(user_in)
+          let g:objectives = []
+      elseif str2nr(user_in) || user_in ==# '0'
+          call remove(g:objectives, str2nr(user_in))
+          call Show()
+      else
+          call filter(g:objectives, 'v:val !~ "' . user_in . '"')
+          call Show()
+      endif
+  endif
+endfunction
+command! -bang -nargs=* Objective call Objective('<bang>', <f-args>)
+
+
+""" use local .vimrc
+set exrc
+set secure
+
+""" personal mappings
+" use <C-c> instead of <Esc> otherwise won't work in commandline mode
+" see explain in :h c_<Esc>
+" imap df <C-c>
+" cmap df <C-c>
+" vmap df <C-c>
+" omap <BS> <C-c>
+noremap \ :
+noremap : ,
+nnoremap q\ q:
+noremap Y y$
+noremap ' `
+" noremap ` '  " see mapping for window
+noremap 0 ^
+noremap ^ 0
+"" default search to very magic
+" nnoremap / /\v
+" vnoremap / /\v
+noremap <leader><leader>p :put +<CR>
+noremap <leader><leader>P :.-1put +<CR>
+noremap <leader>p "+p
+noremap <leader>P "+P
+vnoremap P "+p
+noremap <leader>Y "+Y
+vnoremap Y "+y
+nnoremap S c$
+noremap <silent> <leader>. :nohlsearch<CR>
+noremap zv zMzv
+noremap zV zMzvzc
+nnoremap - :Bclose<CR>
+nnoremap _ :q<CR>
+" nnoremap - :bd<CR>
+nnoremap do do]c
+nnoremap dp dp]c
+nnoremap * *N
+nmap vv v$h
+noremap Q gQ
+noremap <C-d> :sh<CR>
+nnoremap <buffer> <CR> <C-]>
+"" mapping used by iTerm
+noremap <C-h> <Nop>
+noremap <C-j> <Nop>
+noremap <C-k> <Nop>
+noremap <C-l> <Nop>
+noremap <C-Tab> <Nop>
+noremap <C-S-Tab> <Nop>
+
+""" personal commands
+command! Filepath echo expand('%:p')
+command! So update | source %
+command! DeleteTrailingWS call <SID>DeleteTrailingWS()
+command! Cdd cd %:p:h " cd to the currently opened file's folder

@@ -1,0 +1,78 @@
+nnoremap <leader><leader>t :!ctags -R<CR>
+command! Cdd cd %:p:h " cd to the currently opened file's folder
+
+cnoremap <C-r><C-r> \<<C-r><C-w>\>
+nnoremap ! :make<CR>
+
+noremap M :call <SID>MasterMark()<CR>
+fun! s:MasterMark()
+  " TODO make this function universal
+  augroup mastermark
+    au!
+    au BufLeave <buffer> mark A
+    au BufDelete
+  augroup END
+endfunction
+
+
+" ruby to python
+command! FindClass normal! /\v^s*class
+fun! s:ConvClass()
+  normal! gg
+endfun
+
+" " replace keyword
+" %s/\v:(\w+)\s*(\=\>)/"\1"\ =/gc
+" " indent to 4 space
+" %s/^\s*/&&
+" " convert class method(must have argument)
+" %s/\v^(\s*def\s*)self.(\w+)\??\((.+)\)\s*$/\1\2\(self,\ \3\):/gc
+" " convert && to and
+" %s/\V&&/and/gc
+
+" Highlight all instances of word under cursor, when idle.
+" Useful when studying strange source code.
+" Type z/ to toggle highlighting on/off.
+nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+function! AutoHighlightToggle()
+  let @/ = ''
+  if exists('#auto_highlight')
+    au! auto_highlight
+    augroup! auto_highlight
+    setl updatetime=4000
+    echo 'Highlight current word: off'
+    return 0
+  else
+    augroup auto_highlight
+      au!
+      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+    augroup end
+    setl updatetime=500
+    echo 'Highlight current word: ON'
+    return 1
+  endif
+endfunction
+
+
+" nnoremap <Leader>vv :Ack! "<C-r>=expand("<cword>")<CR>"<CR>
+nnoremap <leader>vv :call FileTypeMatchIt()<CR>
+" options
+let norecur_ = "--no-recurse"
+let filetypes_ = ["actionscript", "ada", "asm", "asp", "aspx", "batch", "cc", "cfmx", "clojure", "cmake", "coffeescript", "cpp", "csharp", "css", "dart", "delphi", "elisp", "elixir", "erlang", "fortran", "go", "groovy", "haskell", "hh", "html", "jade", "java", "js", "json", "jsp", "less", "lisp", "lua", "make", "matlab", "objc", "objcpp", "ocaml", "parrot", "perl", "perltest", "php", "plone", "python", "rake", "rr", "rst", "ruby", "rust", "sass", "scala", "scheme", "shell", "smalltalk", "smarty", "sql", "stylus", "tcl", "tex", "tt", "vb", "verilog", "vhdl", "vim", "xml", "yaml"]
+" files
+let curfile_ = "%"
+function! FileTypeMatchIt()
+  let curword_ = expand("<cword>")
+  execute "Ack! ".curword_." %"
+endfunction
+nnoremap <leader>vV :call MyShit()<CR>
+function! MyShit()
+  let curword_ = expand("<cword>")
+  " is python
+  if &filetype in filetypes_
+    let options_ = "--type=".&filetype
+  elseif
+    let options_ = ""
+  endif
+  execute "Ack! ".options_." ".curword_
+endfunction

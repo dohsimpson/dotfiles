@@ -1,0 +1,18 @@
+""" diff color
+" if &background == "light"
+  " lightgreen
+	highlight DiffAdd ctermbg=158 ctermfg=none cterm=none
+  " lightred
+	highlight DiffText ctermbg=217 cterm=none
+  " transparent
+	highlight DiffChange ctermbg=none ctermfg=none cterm=none
+  " lightgrey
+	highlight DiffDelete ctermbg=015 ctermfg=none cterm=none
+" endif
+
+""" todo
+highlight Todo ctermbg=none ctermfg=none cterm=bold
+highlight Folded ctermfg=darkgrey ctermbg=lightgrey
+
+""" normal highlight group(for fixing indent guide plugin)
+highlight Normal guibg=Black guifg=White

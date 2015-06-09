@@ -1,0 +1,275 @@
+""" pathogen
+"" disable plugins
+let g:pathogen_blacklist = [
+      \ "ultisnips",
+      \ "gundo",
+      \ "NerdTree" ]
+
+
+""" ack.vim
+"" enable silver searcher(ag) if possible
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+""" ultisnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+""" jedi-vim
+" see $HOME/.vim/ftplugin/python.vim
+
+""" airline statusline
+"" setting
+let g:airline_theme="understated"
+let g:airline#extensions#tagbar#flags = 'fs'
+let g:airline#extensions#ctrlp#show_adjacent_modes = 0
+let g:airline#extensions#ctrlp#color_template = 'replace'
+let g:airline#extensions#virtualenv#enabled = 1
+" let g:airline_section_x = airline#section#create('%{virtualenv#statusline()}')
+" let g:airline_section_x = airline#section#create('%{airline#util#prepend(virtualenv#statusline(), 0)}%{airline#util#prepend(airline#extensions#tagbar#currenttag(),0)}%{airline#util#wrap(airline#parts#filetype(),0)}')
+"" symbols
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+"" mode map
+if !exists('g:airline_mode_map')
+  let g:airline_mode_map = {}
+endif
+let g:airline_mode_map = {
+  \ '__' : '-',
+  \ 'n'  : 'N',
+  \ 'i'  : 'I',
+  \ 'R'  : 'R',
+  \ 'c'  : 'C',
+  \ 'v'  : 'V',
+  \ 'V'  : 'V',
+  \ '' : 'V',
+  \ 's'  : 'S',
+  \ 'S'  : 'S',
+  \ '' : 'S',
+  \ }
+
+""" ctrlp
+let g:ctrlp_map = ''
+let g:ctrlp_open_new_file = 'h'
+let g:ctrlp_by_filename = 0
+let g:ctrlp_clear_cache_on_exit = 1
+let g:ctrlp_show_hidden = 0
+let g:ctrlp_default_input = 0
+let g:ctrlp_match_window = 'top,order:ttb,min:1,max:10,results:10'
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_use_caching = 0
+" let g:ctrlp_mruf_default_order = 0
+"" mappings
+noremap <C-p> :CtrlPLastMode<CR>
+
+""" gundo
+if has('python3')
+  let g:gundo_prefer_python3 = 1
+endif
+let g:gundo_auto_preview = 0 " disable auto update preview: faster
+let g:gundo_playback_delay = 500 " slower playback speed
+let g:gundo_preview_bottom = 1 " preview at the very bottom: larger
+" nnoremap <leader>g :GundoToggle<CR>
+
+""" supertab
+let g:SuperTabDefaultCompletionType = 'context'
+" autocmd FileType *
+"       \ if &omnifunc != '' |
+"       \   call SuperTabChain(&omnifunc, "<c-n>") |
+"       \ endif
+" "" mapping
+" let g:SuperTabMappingTabLiteral = '<c-g><Tab>'
+let g:SuperTabClosePreviewOnPopupClose = 1
+
+" """ NerdTree
+" noremap <leader>N :NERDTreeToggle<CR>
+
+" """ slime
+" let g:slime_target = "tmux"
+" let g:slime_python_ipython= 1
+
+""" easy motion
+let g:EasyMotion_do_mapping = 0
+" let g:EasyMotion_use_upper = 1
+let g:EasyMotion_keys = "bceimnopqrtuvwxyz0123456789a;slghdkfj"
+hi EasyMotionTarget ctermbg=none ctermfg=red
+hi EasyMotionTarget2First ctermbg=none ctermfg=red
+hi EasyMotionTarget2Second ctermbg=none ctermfg=red
+" nmap <silent> ; <Plug>(easymotion-bd-w)
+" vmap <silent> ; <Plug>(easymotion-bd-w)
+nmap <silent> <space> <Plug>(easymotion-bd-w)
+vmap <silent> <space> <Plug>(easymotion-bd-w)
+
+""" easy grep
+let EasyGrepCommand = 1 " set 1 to use grep or ack
+let EasyGrepMode = 2 " use file extension by default
+let EasyGrepInvertWholeWord = 1 " use vv for \<word\>
+let EasyGrepRecursive = 1 " search recursively by default
+let EasyGrepFileAssociationsInExplorer = 1
+let EasyGrepReplaceWindowMode = 3 " (customed) use only current window, hidden must on
+let EasyGrepJumpToMatch = 0
+let EasyGrepWindowPosition = "botright"
+"" mapping
+nmap <leader>vf :ResultListFilter
+vmap <leader>vR <Plug>EgMapReplaceSelection_R
+nmap <leader>vR <Plug>EgMapReplaceCurrentWord_R
+vmap <leader>vr <Plug>EgMapReplaceSelection_r
+nmap <leader>vr <Plug>EgMapReplaceCurrentWord_r
+vmap <leader>vA <Plug>EgMapGrepSelection_A
+nmap <leader>vA <Plug>EgMapGrepCurrentWord_A
+vmap <leader>va <Plug>EgMapGrepSelection_a
+nmap <leader>va <Plug>EgMapGrepCurrentWord_a
+vmap <leader>vV <Plug>EgMapGrepSelection_V
+nmap <leader>vV <Plug>EgMapGrepCurrentWord_V
+vmap <leader>vv <Plug>EgMapGrepSelection_v
+nmap <leader>vv <Plug>EgMapGrepCurrentWord_v
+nmap <leader>vo <Plug>EgMapGrepOptions
+
+""" syntastic
+"" settings
+" let g:syntastic_check_on_open = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_loc_list_height = 5
+let g:syntastic_error_symbol = '!'
+let g:syntastic_warning_symbol = '?'
+let g:syntastic_enable_signs = 1
+let g:syntastic_enable_balloons = 0
+let g:syntastic_python_checkers = ['flake8', 'pyflakes']
+let g:syntastic_vim_checkers = ['vint']
+let g:syntastic_sh_checkers = ['checkbashisms', 'sh']
+let g:syntastic_html_checkers = ['validator']
+let g:syntastic_html_tidy_exec = 'tidy5'
+highlight SyntasticWarningSign ctermfg=166
+" let g:syntastic_quiet_messages = {
+"       \ "!level":  "errors",
+"       \ "type":    "style",
+"       \ "regex":   '\m\[C03\d\d\]',
+"       \ "file:p":  ['\m^/usr/include/', '\m\c\.h$'] }
+let g:syntastic_stl_format = '[%E{E:%e}%B{, }%W{W:%w}]'
+let g:syntastic_html_validator_quiet_messages = { "regex":   'Attribute "ng.*" not allowed .* at this point.' }
+let g:syntastic_python_flake8_quiet_messages = { "regex":   'E501' }
+"" be quite
+let g:syntastic_vim_vint_args="-e" " only report errors
+
+""" fugitive
+"" settings
+" delete the hidden fugitive buffer to keep buffer list clean
+autocmd BufReadPost fugitive://* set bufhidden=delete
+"" mappings
+nnoremap <leader>ga :Git add %:p<CR><CR>
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gc :Gcommit -v -q<CR>
+nnoremap <leader>gt :Gcommit -v -q %:p<CR>
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>ge :Gedit<CR>
+nnoremap <leader>gr :Gread<CR>
+nnoremap <leader>gw :Gwrite<CR><CR>
+nnoremap <leader>gl :silent! Glog<CR>:bot copen<CR>
+nnoremap <leader>gp :Ggrep<Space>
+nnoremap <leader>gm :Gmove<Space>
+nnoremap <leader>gb :Git branch<Space>
+nnoremap <leader>go :Git checkout<Space>
+nnoremap <leader>gps :Dispatch! git push<CR>
+nnoremap <leader>gpl :Dispatch! git pull<CR>
+"" additional
+autocmd User fugitive
+      \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+      \   nnoremap <buffer> .. :edit %:h<CR> |
+      \ endif
+
+""" gitgutter
+let g:gitgutter_highlight_lines = 0 " set to 1 to hl line by default
+let g:gitgutter_map_keys = 0
+nmap [h <Plug>GitGutterPrevHunk
+nmap ]h <Plug>GitGutterNextHunk
+
+""" tmux navigator
+" let g:tmux_navigator_no_mappings = 1
+" let g:tmux_navigator_save_on_switch = 0
+" nnoremap <silent> `h :TmuxNavigateLeft<cr>
+" nnoremap <silent> `j :TmuxNavigateDown<cr>
+" nnoremap <silent> `k :TmuxNavigateUp<cr>
+" nnoremap <silent> `l :TmuxNavigateRight<cr>
+" nnoremap <silent> `` :TmuxNavigatePrevious<cr>
+
+""" auto pair
+let g:AutoPairsFlyMode = 0
+
+""" neocomplete
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#enable_auto_close_preview = 1
+let g:neocomplete#enable_auto_delimiter = 1
+let g:neocomplete#auto_completion_start_length = 2
+let g:neocomplete#enable_auto_select = 1
+" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" function! s:my_cr_function()
+"   return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+" endfunction
+"
+" " <TAB> complete
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" " <C-h>, <BS>: close popup and delete backword char.
+" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><C-y>  neocomplete#close_popup()
+" inoremap <expr><C-e>  neocomplete#cancel_popup()
+
+""" indent guide
+let g:indent_guides_auto_colors = 1
+let g:indent_guides_enable_on_vim_startup = 0
+
+""" easy align
+vmap <CR> <Plug>(EasyAlign)
+
+""" javascript library syntax
+let g:used_javascript_libs = 'angularjs'
+
+""" undotree
+let g:undotree_SetFocusWhenToggle = 1
+let g:undotree_DiffpanelHeight = 20
+let g:undotree_HighlightSyntaxChange = "DiffText"
+nnoremap <leader>gg :UndotreeToggle<CR>
+
+""" autocomplpop
+let g:acp_behaviorSnipmateLength = 1
+
+""" goyo
+command! Read colorscheme seoul256 | Goyo 100
+
+""" snipmate
+let g:snipMate = {}
+let g:snipMate.no_default_aliases = 1
+
+""" submode
+" call submode#enter_with('back', 'n', '', 'g;', 'g;')
+" call submode#enter_with('back', 'n', '', 'g,', 'g,')
+" call submode#leave_with('back', 'n', '', '<Esc>')
+" call submode#map('back', 'n', '', ';', 'g;')
+" call submode#map('back', 'n', '', ',', 'g,')
+" call submode#enter_with('repeat_ex_cmd', 'n', '', '@@', '@@')
+" call submode#leave_with('repeat_ex_cmd', 'n', '', '<Esc>')
+" call submode#map('repeat_ex_cmd', 'n', '', '<space>', '@@')
+
+""" tagbar
+nnoremap <leader>tb :TagbarToggle<CR>
+
+""" sideways
+omap aa <Plug>SidewaysArgumentTextobjA
+xmap aa <Plug>SidewaysArgumentTextobjA
+omap ia <Plug>SidewaysArgumentTextobjI
+xmap ia <Plug>SidewaysArgumentTextobjI
+
+""" quickfix-reflector
+let g:qf_join_changes = 1
+
+""" startify
+let g:startify_change_to_dir = 0
+let g:startify_relative_path = 1

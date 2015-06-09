@@ -1,0 +1,13 @@
+cabbrev q1 q!
+cabbrev w1 w!
+cabbrev qa1 qa!
+cabbrev wa1 wa!
+cabbrev wq1 wq!
+cabbrev wqa1 wqa!
+cabbrev waq wqa
+cabbrev waq1! wqa!
+abbrev rpint print
+iabbrev arguemnt argument
+iabbrev arguement argument
+iabbrev liek like
+iabbrev teh the

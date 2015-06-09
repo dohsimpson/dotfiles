@@ -1,0 +1,1 @@
+call RunCmdRegister("w | source %")

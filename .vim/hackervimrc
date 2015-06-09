@@ -1,0 +1,3 @@
+source /Users/enting/.vim/bundle/vim-scriptease/plugin/scriptease.vim
+helptags /Users/enting/.vim/bundle/vim-scriptease/doc
+execute pathogen#helptags()

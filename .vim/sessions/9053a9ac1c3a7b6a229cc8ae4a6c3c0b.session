@@ -1,0 +1,85 @@
+let SessionLoad = 1
+if &cp | set nocp | endif
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+let v:this_session=expand("<sfile>:p")
+silent only
+cd ~/Downloads/JavaScript-Koans-master
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+set shortmess=aoO
+badd +13 topics/about_asserts.js
+badd +4 topics/about_arrays.js
+badd +10 topics/about_assignment.js
+badd +72 topics/about_control_structures.js
+badd +22 topics/about_equality.js
+badd +40 topics/about_functions_and_closure.js
+badd +15 topics/about_numbers.js
+badd +13 topics/about_objects.js
+badd +46 topics/about_operators.js
+badd +60 topics/about_prototypal_inheritance.js
+badd +60 topics/about_prototype_chain.js
+badd +68 topics/about_reflection.js
+badd +1 topics/about_regular_expressions.js
+badd +1 topics/about_scope.js
+badd +33 topics/about_strings.js
+badd +1 topics/about_this.js
+badd +21 topics/about_truthyness.js
+badd +15 ~/Desktop/jsnotes.markdown
+argglobal
+silent! argdel *
+argadd topics/about_arrays.js
+argadd topics/about_asserts.js
+argadd topics/about_assignment.js
+argadd topics/about_control_structures.js
+argadd topics/about_equality.js
+argadd topics/about_functions_and_closure.js
+argadd topics/about_numbers.js
+argadd topics/about_objects.js
+argadd topics/about_operators.js
+argadd topics/about_prototypal_inheritance.js
+argadd topics/about_prototype_chain.js
+argadd topics/about_reflection.js
+argadd topics/about_regular_expressions.js
+argadd topics/about_scope.js
+argadd topics/about_strings.js
+argadd topics/about_this.js
+argadd topics/about_truthyness.js
+edit topics/about_functions_and_closure.js
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+edit topics/about_functions_and_closure.js
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 60 - ((33 * winheight(0) + 18) / 37)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+60
+normal! 011|
+lcd ~/Downloads/JavaScript-Koans-master
+tabnext 1
+if exists('s:wipebuf')
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=20 shortmess=at
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if file_readable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &so = s:so_save | let &siso = s:siso_save
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :

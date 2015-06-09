@@ -1,0 +1,318 @@
+let SessionLoad = 1
+if &cp | set nocp | endif
+let s:cpo_save=&cpo
+set cpo&vim
+map! <D-v> *
+nnoremap  3
+noremap  <Nop>
+noremap <NL> <Nop>
+noremap  <Nop>
+noremap  <Nop>
+noremap  :CtrlPLastMode
+nnoremap  3
+noremap  g
+map   <Plug>(easymotion-bd-w)
+noremap ! :So
+xnoremap & :&&
+nnoremap & :&&
+noremap ' `
+noremap * *N
+noremap <silent> ,. :nohlsearch
+noremap ,P "+P
+noremap ,p "+p
+noremap ,,P :.-1put +
+noremap ,,p :put +
+nnoremap <silent> ,q :copen
+nnoremap <silent> ,l :lopen
+nnoremap <silent> ,b :ls
+nnoremap <silent> ,a :args
+nnoremap ,hc :%s///gn
+nnoremap ,hl :set hlsearch
+nnoremap ,nh :nohlsearch
+nnoremap ,vsc :source $MYVIMRC
+nnoremap ,vcc :edit $MYVIMRC
+nnoremap ,vst :source $HOME/.vim/tempvimrc
+nnoremap ,vct :edit $HOME/.vim/tempvimrc
+nnoremap ,vsp :source $HOME/.vim/plugvimrc
+nnoremap ,vcp :edit $HOME/.vim/plugvimrc
+nnoremap ,vv :call MyShit()
+nnoremap ,,t :!ctags -R
+nnoremap ,gpl :Dispatch! git pull
+nnoremap ,gps :Dispatch! git push
+nnoremap ,go :Git checkout 
+nnoremap ,gb :Git branch 
+nnoremap ,gm :Gmove 
+nnoremap ,gp :Ggrep 
+nnoremap ,gl :silent! Glog:bot copen
+nnoremap ,gw :Gwrite
+nnoremap ,gr :Gread
+nnoremap ,ge :Gedit
+nnoremap ,gd :Gdiff
+nnoremap ,gt :Gcommit -v -q %:p
+nnoremap ,gc :Gcommit -v -q
+nnoremap ,gs :Gstatus
+nnoremap ,ga :Git add %:p
+noremap ,vf :ResultListFilter
+noremap ,N :NERDTreeToggle
+nnoremap ,g :GundoToggle
+nnoremap - :bd
+noremap 0 ^
+noremap : ,
+vnoremap P "+p
+noremap Q gQ
+vnoremap Y "+y
+nnoremap Y y$
+onoremap Y y$
+nnoremap <silent> [Q :cfirst
+nnoremap <silent> [q :cprevious
+nnoremap <silent> [L :lfirst
+nnoremap <silent> [l :lprevious
+nnoremap <silent> [B :bfirst
+nnoremap <silent> [b :bprevious
+nnoremap <silent> [T :tfirst
+nnoremap <silent> [t :tprevious
+nnoremap <silent> [A :first
+nnoremap <silent> [a :previous
+nmap [h <Plug>GitGutterPrevHunk
+vmap [% [%m'gv``
+noremap \ :
+nnoremap <silent> ]Q :clast
+nnoremap <silent> ]q :cnext
+nnoremap <silent> ]L :llast
+nnoremap <silent> ]l :lnext
+nnoremap <silent> ]B :blast
+nnoremap <silent> ]b :bnext
+nnoremap <silent> ]T :tlast
+nnoremap <silent> ]t :tnext
+nnoremap <silent> ]A :last
+nnoremap <silent> ]a :next
+nmap ]h <Plug>GitGutterNextHunk
+vmap ]% ]%m'gv``
+noremap _ 0
+nnoremap `` p
+nnoremap ` 
+vmap a% [%v]%
+nnoremap dp dp]c
+nnoremap do do]c
+vmap gx <Plug>NetrwBrowseXVis
+nmap gx <Plug>NetrwBrowseX
+nnoremap q\ q:
+noremap vv v$h
+noremap zV zMzvzc
+noremap zv zMzv
+nnoremap z/ :if AutoHighlightToggle()|set hls|endif
+vnoremap <silent> <Plug>NetrwBrowseXVis :call netrw#BrowseXVis()
+nnoremap <silent> <Plug>NetrwBrowseX :call netrw#BrowseX(expand((exists("g:netrw_gx")? g:netrw_gx : '<cfile>')),netrw#CheckIfRemote())
+noremap <C-S-Tab> <Nop>
+noremap <C-Tab> <Nop>
+vmap <BS> "-d
+vmap <D-x> "*d
+vmap <D-c> "*y
+vmap <D-v> "-d"*P
+nmap <D-v> "*P
+cnoremap  \<\>
+iabbr arguement argument
+iabbr arguemnt argument
+abbr rpint print
+cabbr wqa1 wqa!
+cabbr wq1 wq!
+cabbr wa1 wa!
+cabbr qa1 qa!
+cabbr w1 w!
+cabbr q1 q!
+let &cpo=s:cpo_save
+unlet s:cpo_save
+set ambiwidth=double
+set autoread
+set autowrite
+set backspace=eol,start,indent
+set diffopt=filler,vertical
+set directory=~/.vim/swp,.
+set expandtab
+set exrc
+set fileencodings=ucs-bom,utf-8,default,latin1
+set grepformat=
+set grepprg=ag\ --vimgrep
+set helplang=en
+set hidden
+set history=1000
+set hlsearch
+set ignorecase
+set incsearch
+set keywordprg=:help
+set laststatus=2
+set lazyredraw
+set mouse=a
+set nrformats=hex,alpha
+set scrolloff=3
+set secure
+set shiftwidth=2
+set smartcase
+set smartindent
+set softtabstop=2
+set tabstop=2
+set title
+set undodir=~/.vim/undodir
+set undofile
+set whichwrap=b,s,<,>,h,l
+set wildignore=*.a,*.o,*.bmp,*.gif,*.ico,*.jpg,*.png,.DS_Store,.git,.hg,.svn,*~,*.swp,*.tmp
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+let v:this_session=expand("<sfile>:p")
+silent only
+cd ~/
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+set shortmess=aoO
+badd +25 .vim/vimrc
+badd +302 .vim/temp/vimlib.vim
+badd +95 .vim/tempvimrc
+argglobal
+silent! argdel *
+argadd .vim/vimrc
+edit .vim/tempvimrc
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+vnoremap <buffer> <silent> [" :exe "normal! gv"|call search('\%(^\s*".*\n\)\%(^\s*"\)\@!', "bW")
+nnoremap <buffer> <silent> [" :call search('\%(^\s*".*\n\)\%(^\s*"\)\@!', "bW")
+vnoremap <buffer> <silent> [] m':exe "normal! gv"|call search('^\s*endf*\%[unction]\>', "bW")
+nnoremap <buffer> <silent> [] m':call search('^\s*endf*\%[unction]\>', "bW")
+vnoremap <buffer> <silent> [[ m':exe "normal! gv"|call search('^\s*fu\%[nction]\>', "bW")
+nnoremap <buffer> <silent> [[ m':call search('^\s*fu\%[nction]\>', "bW")
+vnoremap <buffer> <silent> ]" :exe "normal! gv"|call search('^\(\s*".*\n\)\@<!\(\s*"\)', "W")
+nnoremap <buffer> <silent> ]" :call search('^\(\s*".*\n\)\@<!\(\s*"\)', "W")
+vnoremap <buffer> <silent> ][ m':exe "normal! gv"|call search('^\s*endf*\%[unction]\>', "W")
+nnoremap <buffer> <silent> ][ m':call search('^\s*endf*\%[unction]\>', "W")
+vnoremap <buffer> <silent> ]] m':exe "normal! gv"|call search('^\s*fu\%[nction]\>', "W")
+nnoremap <buffer> <silent> ]] m':call search('^\s*fu\%[nction]\>', "W")
+setlocal keymap=
+setlocal noarabic
+setlocal noautoindent
+setlocal backupcopy=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=sO:\"\ -,mO:\"\ \ ,eO:\"\",:\"
+setlocal commentstring=\"%s
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'vim'
+setlocal filetype=vim
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=GetVimIndent()
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e,=end,=else,=cat,=fina,=END,0\\
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,#
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=hex,alpha
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+set relativenumber
+setlocal relativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal smartindent
+setlocal softtabstop=2
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'vim'
+setlocal syntax=vim
+endif
+setlocal tabstop=2
+setlocal tags=
+setlocal textwidth=78
+setlocal thesaurus=
+setlocal undofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 95 - ((27 * winheight(0) + 18) / 36)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+95
+normal! 0
+tabnext 1
+if exists('s:wipebuf')
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=20 shortmess=filnxtToO
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if file_readable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &so = s:so_save | let &siso = s:siso_save
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :
