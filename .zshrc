@@ -34,7 +34,7 @@ if [ -f ~/.sh_aliases ]; then
 fi
 
 # z from brew
-if [ $(which brew) ]; then
+if command -v brew >/dev/null 2>&1; then
     . `brew --prefix`/etc/profile.d/z.sh
 fi
 
