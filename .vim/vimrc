@@ -115,7 +115,7 @@ source $HOME/.vim/plugvimrc
 source $HOME/.vim/abbrvimrc
 source $HOME/.vim/tempvimrc
 source $HOME/.vim/colorvimrc
-source $HOME/.vim/temp/vimlib.vim
+" source $HOME/.vim/temp/vimlib.vim
 
 """ status line
 set laststatus=2

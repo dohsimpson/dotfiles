@@ -34,7 +34,9 @@ if [ -f ~/.sh_aliases ]; then
 fi
 
 # z from brew
-. `brew --prefix`/etc/profile.d/z.sh
+if [ $(which brew) ]; then
+    . `brew --prefix`/etc/profile.d/z.sh
+fi
 
 # update prompt if start from vim
 VIM_PROMPT_PATTERN="(vim)"
