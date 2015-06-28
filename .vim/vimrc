@@ -3,7 +3,7 @@
 " execute pathogen#helptags()
 
 """ vim-plug
-let complete_these_ = ['python', 'vim', 'c', 'c++', 'ruby', 'txt', 'sh', 'markdown', 'html']
+let complete_these_ = ['python', 'vim', 'c', 'c++', 'ruby', 'txt', 'sh', 'markdown', 'html', 'css']
 let easy_grep_on_demand_ = [
       \ "<Plug>EgMapReplaceSelection_R",
       \ "<Plug>EgMapReplaceCurrentWord_R",
@@ -36,9 +36,9 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/seoul256.vim'
-Plug 'mhinz/vim-startify'
+" Plug 'mhinz/vim-startify'
 Plug 'ervandew/supertab'
-Plug 'Lokaltog/vim-easymotion', {'on': '<Plug>(easymotion-bd-w)'}
+Plug 'Lokaltog/vim-easymotion'
 Plug 'dohsimpson/vim-macroeditor', {'on': 'MacroEdit'}
 Plug 'vim-scripts/BufOnly.vim', {'on': 'BufOnly'}
 Plug '~/.vim/plugged/vim-easygrep', {'on': easy_grep_on_demand_}
@@ -53,17 +53,14 @@ Plug 'othree/html5.vim', {'for': 'html'}
 Plug 'ap/vim-css-color', {'for': 'css'}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
-" Plug 'mattn/emmet-vim'
 " miscellaneous
 Plug 'mjbrownie/browser.vim', {'on': 'WebBrowser'}
 Plug 'scrooloose/nerdtree'
 " testing
 Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
-" Plug 'joonty/vdebug'
 Plug 'tpope/vim-dispatch'
 Plug 'rizzatti/dash.vim', {'for': complete_these_}
 " Plug 'tpope/vim-vinegar'
-" Plug 'kana/vim-submode'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'tpope/vim-speeddating', {'on': 'SpeeddateOn'}
 Plug 'justinmk/vim-gtfo'
@@ -72,7 +69,6 @@ Plug 'alfredodeza/pytest.vim', {'for': 'python', 'on': 'Pytest'}
 Plug 'reinh/vim-makegreen', {'for': complete_these_}
 Plug '~/.vim/plugged/python-mode-extracted', {'for': 'python'}
 " Plug '5long/pytest-vim-compiler', {'for': 'python'}
-" Plug 'nanotech/jellybeans.vim'
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'rking/ag.vim', {'on': 'Ag'}
 Plug 'AndrewRadev/linediff.vim'
@@ -82,6 +78,13 @@ Plug 'AndrewRadev/sideways.vim'
 Plug 'stefandtw/quickfix-reflector.vim'
 Plug 'myusuf3/numbers.vim'
 Plug 'vim-scripts/gitignore.vim'
+Plug 'vim-scripts/django.vim', {'for': 'html'} " syntax for django templates
+Plug 'vim-scripts/indentpython.vim', {'for': 'python'}
+Plug 'mattn/emmet-vim', {'for': [ 'html', 'htmldjango' ]}
+Plug 'chrisbra/vim-diff-enhanced', {'on': 'EnhancedDiff'}
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'spiiph/vim-space'
+" Plug 'ekalinin/Dockerfile.vim'
 call plug#end()
 
 """ basic
@@ -89,6 +92,7 @@ call plug#end()
 autocmd!
 set nocompatible
 " filetype indent plugin on " this is already turned on by vim-sensible
+filetype plugin on " this is already turned on by vim-sensible
 runtime macros/matchit.vim
 syntax on
 set number
@@ -115,7 +119,7 @@ source $HOME/.vim/plugvimrc
 source $HOME/.vim/abbrvimrc
 source $HOME/.vim/tempvimrc
 source $HOME/.vim/colorvimrc
-" source $HOME/.vim/temp/vimlib.vim
+source $HOME/.vim/temp/vimlib.vim
 
 """ status line
 set laststatus=2
@@ -126,6 +130,7 @@ set wildignore+=*.a,*.o
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
 set wildignore+=.DS_Store,.git,.hg,.svn
 set wildignore+=*~,*.swp,*.tmp
+set wildignore+=*.pyc,*.pyo
 
 """ enable mouse
 set mouse+=a
@@ -200,20 +205,20 @@ nnoremap <silent> ]T :tlast<CR>
 
 """ buffer list
 nnoremap <silent> <leader>b :ls<CR>
-nnoremap <silent> [b :bprevious<CR>
-nnoremap <silent> ]b :bnext<CR>
-nnoremap <silent> [B :bfirst<CR>
-nnoremap <silent> ]B :blast<CR>
+" nnoremap <silent> [b :bprevious<CR>
+" nnoremap <silent> ]b :bnext<CR>
+" nnoremap <silent> [B :bfirst<CR>
+" nnoremap <silent> ]B :blast<CR>
 
 """ location list
-" nnoremap <silent> <leader>l :lopen<CR>
+nnoremap <silent> <leader>l :lopen<CR>
 nnoremap <silent> [l :lprevious<CR>
 nnoremap <silent> ]l :lnext<CR>
 nnoremap <silent> [L :lfirst<CR>
 nnoremap <silent> ]L :llast<CR>
 
 """ quickfix list
-" nnoremap <silent> <leader>q :copen<CR>
+nnoremap <silent> <leader>q :copen<CR>
 nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]q :cnext<CR>
 nnoremap <silent> [Q :cfirst<CR>
@@ -242,10 +247,12 @@ autocmd FileType ruby setlocal ts=2 sts=2 sw=2 et
 autocmd FileType python setlocal ts=4 sts=4 sw=4 et
 autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noet
 autocmd FileType html setlocal ts=2 sts=2 sw=2 noet
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 et
+autocmd FileType htmldjango setlocal ts=2 sts=2 sw=2 noet
 autocmd FileType css setlocal ts=2 sts=2 sw=2 noet
 autocmd FileType c setlocal ts=4 sts=4 sw=4 et
 autocmd FileType help setlocal et
-autocmd FileType help nnoremap <buffer> <CR> <C-]>
+autocmd FileType gitcommit setlocal spell
 " autocmd BufNewFile,BufRead .gitignore set filetype=gitignore
 
 """ function definitions
@@ -421,10 +428,11 @@ noremap <leader><leader>p :put +<CR>
 noremap <leader><leader>P :.-1put +<CR>
 noremap <leader>p "+p
 noremap <leader>P "+P
+noremap <leader>]p "+]p
+noremap <leader>[p "+[p
 vnoremap P "+p
 noremap <leader>Y "+Y
 vnoremap Y "+y
-nnoremap S c$
 noremap <silent> <leader>. :nohlsearch<CR>
 noremap zv zMzv
 noremap zV zMzvzc
@@ -437,7 +445,7 @@ nnoremap * *N
 nmap vv v$h
 noremap Q gQ
 noremap <C-d> :sh<CR>
-nnoremap <buffer> <CR> <C-]>
+" nnoremap <buffer> <CR> <C-]>
 "" mapping used by iTerm
 noremap <C-h> <Nop>
 noremap <C-j> <Nop>

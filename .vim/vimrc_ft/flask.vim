@@ -2,4 +2,4 @@
 " your local .vimrc file
 
 """ tags
-set tags+=/Users/enting/Development/python/flask/pythonflask.tags
+set tags+=~/Development/python/flask/pythonflask.tags

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ -n "$MAC" ]; then
+    source "$HOME/.sh_aliases_private"
+fi
+
 # shell shortcuts
 alias va="vim ~/.sh_aliases"
 alias vrc="vim ~/.vim/vimrc"
@@ -12,6 +16,7 @@ alias speedtest='curl -o /dev/null http://speedtest.wdc01.softlayer.com/download
 alias v='vim'
 alias vim-none='vim -u NONE -N'
 alias vim-hack='vim -u NONE -N -S ~/.vim/hackervimrc'
+alias viml='vim -c "normal '\''0"' # vim last
 alias ip='curl ipinfo.io'
 alias colors='for code in {0..255}; do echo -e "\e[38;05;${code}m $code: Test"; done'
 alias cl='clear'
@@ -30,6 +35,8 @@ alias ma='man' # :)
 alias pg='ping google.com'
 alias histgrep="history | grep"
 alias histail="history | tail -n50"
+alias httpserver="python -m SimpleHTTPServer"
+alias pythonpath='python -c "import sys; print sys.path" | tr "," "\n" | grep -v "egg"'
 
 # git alias
 alias g='git'
@@ -62,3 +69,144 @@ alias gm='git merge'
 alias grb='git rebase'
 alias gcl='git clone'
 alias gcls='git clone --depth 1'
+alias gd='git diff'
+
+# docker aliases from https://github.com/tcnksm/docker-alias
+alias d="docker"
+# Get latest container ID
+alias dl="docker ps -l -q"
+# Get container process
+alias dps="docker ps"
+# Get process included stop container
+alias dpsa="docker ps -a"
+alias dpa="docker ps -a"
+# Get images
+alias di="docker images"
+# Get container IP
+alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
+# Run deamonized container, e.g., $dkd base /bin/echo hello
+alias drun="docker run"
+alias drund="docker run -d"
+# Run interactive container, e.g., $dki base /bin/bash
+alias druni="docker run -it"
+# Stop all containers
+dstop() { docker stop $(docker ps -a -q); }
+# Remove all non-running containers
+drm() { docker rm $(docker ps -a -q); }
+# Remove all containers
+# alias drma='dstop && drm'
+# Stop and Remove all containers
+alias drmf='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
+# Remove all dangling images
+dcleani() { docker rmi $(docker images -q -f dangling=true); }
+# Remove all images
+drmi() { docker rmi $(docker images -a -q); }
+# Dockerfile build, e.g., $dbu tcnksm/test 
+dbuild() { docker build -t=$1 .; }
+# Show all alias related docker
+dalias() { alias | grep 'docker' | sed "s/^\([^=]*\)=\(.*\)/\1 => \2/"| sed "s/['|\']//g" | sort; }
+# personal
+alias dhello="docker run -it --rm -p 80:8000 crccheck/hello-world"
+alias dh="docker help"
+alias drmi="docker rmi"
+dbase() {
+    local cmd="docker run -it"
+    local image="debian:wheezy"
+    local arg="/bin/bash"
+    if [ $# -eq 0 ]; then
+        eval "$cmd $image $arg"
+    else
+        eval "$cmd $@ $image $arg"
+    fi
+}
+da() {
+    docker start $1 && docker attach $1
+}
+
+# Defines transfer alias and provides easy command line file and folder sharing.
+#
+# Authors:
+#   Remco Verhoef <remco@dutchcoders.io>
+#
+transfer() { 
+    if (( ! $+commands[curl] )); then
+        echo "No curl, cannot use function transfer"
+    fi
+    # check arguments
+    if [ $# -eq 0 ]; 
+    then 
+        echo "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"
+        return 1
+    fi
+ 
+    # get temporarily filename, output is written to this file show progress can be showed
+    tmpfile=$( mktemp -t transferXXX )
+    
+    # upload stdin or file
+    file=$1
+ 
+    if tty -s; 
+    then 
+        basefile=$(basename "$file" | sed -e 's/[^a-zA-Z0-9._-]/-/g') 
+ 
+        if [ ! -e $file ];
+        then
+            echo "File $file doesn't exists."
+            return 1
+        fi
+        
+        if [ -d $file ];
+        then
+            # zip directory and transfer
+            zipfile=$( mktemp -t transferXXX.zip )
+            cd $(dirname $file) && zip -r -q - $(basename $file) >> $zipfile
+            curl --progress-bar --upload-file "$zipfile" "https://transfer.sh/$basefile.zip" >> $tmpfile
+            rm -f $zipfile
+        else
+            # transfer file
+            curl --progress-bar --upload-file "$file" "https://transfer.sh/$basefile" >> $tmpfile
+        fi
+    else 
+        # transfer pipe
+        curl --progress-bar --upload-file "-" "https://transfer.sh/$file" >> $tmpfile
+    fi
+   
+    # cat output link
+    cat $tmpfile
+ 
+    # cleanup
+    rm -f $tmpfile
+}
+
+extract () {
+    # type in one valid tar command without google
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)        tar xjf $1        ;;
+            *.tar.gz)         tar xzf $1        ;;
+            *.bz2)            bunzip2 $1        ;;
+            *.rar)            unrar x $1        ;;
+            *.gz)             gunzip $1         ;;
+            *.tar)            tar xf $1         ;;
+            *.tbz2)           tar xjf $1        ;;
+            *.tgz)            tar xzf $1        ;;
+            *.zip)            unzip $1          ;;
+            *.Z)              uncompress $1     ;;
+            *)                echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+killit() {
+    # Kills any process that matches a regexp passed to it
+    if [ "$1" = "-9" ] ; then
+        shift
+    fi
+    ps aux | grep -v "grep" | grep "$@" | awk '{print $2}' | xargs sudo kill
+}
+
+mkdirc() {
+    mkdir -p $1 && cd $1
+}

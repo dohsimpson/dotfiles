@@ -7,6 +7,26 @@ inoremap # <C-v>#
 nnoremap <up> <C-b>
 nnoremap <down> <C-f>
 
+inoremap <C-BS> <C-w>
+
+noremap <F1> <C-^>
+noremap <C-w> :w<CR>
+
+" function! JumpToPrevWord()
+"     normal! b
+"     while strpart(getline('.'), col('.')-1, 1) !~ '\w'
+"         normal b
+"     endwhile
+" endfunction
+" function! JumpToNextWord()
+"     normal! w
+"     while strpart(getline('.'), col('.')-1, 1) !~ '\w'
+"         normal w
+"     endwhile
+" endfunction
+" nnoremap <silent> w :call JumpToNextWord()<CR>
+" nnoremap <silent> b :call JumpToPrevWord()<CR>
+
 function! NextIndentation(level, direction)
   " level is an integer indicate which level to stop(0: same level,
   " 1: 1 more indent, -1: 1 less indent, etc.)
@@ -37,10 +57,10 @@ function! NextIndentation(level, direction)
     endwhile
   endif
 endfunction
-nnoremap <silent> [i :call NextIndentation(-1, -1)<CR>
-nnoremap <silent> ]i :call NextIndentation(1, 1)<CR>
-nnoremap <silent> [I :call NextIndentation(0, -1)<CR>
-nnoremap <silent> ]I :call NextIndentation(0, 1)<CR>
+nnoremap <silent> <C-9> :call NextIndentation(-1, -1)<CR>
+nnoremap <silent> <C-0> :call NextIndentation(1, 1)<CR>
+nnoremap <silent> ( :call NextIndentation(0, -1)<CR>
+nnoremap <silent> ) :call NextIndentation(0, 1)<CR>
 
 " nnoremap > <C-v>>
 function! Ls()

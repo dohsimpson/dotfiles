@@ -464,11 +464,9 @@ snippet html5
 		<head>
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width">
-			<title>${1:`substitute(vim_snippets#Filename('', 'Page Title'), '^.', '\u&', '')`}</title>
-			${2:link}
+			<title>${1}</title>
 		</head>
 		<body>
-			${0:body}
 		</body>
 	</html>
 snippet html5l
@@ -877,3 +875,5 @@ snippet video
 	<video src="${1} height="${2}" width="${3}" preload="${5:none}" autoplay="${6:autoplay}>${7}</video>
 snippet wbr
 	<wbr />
+snippet bootstrap
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
