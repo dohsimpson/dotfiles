@@ -254,3 +254,11 @@ let g:qf_join_changes = 1
 """ startify
 let g:startify_change_to_dir = 0
 let g:startify_relative_path = 1
+
+""" ag
+noremap <leader>vv :Ag <cword><CR>
+
+""" space.vim
+let g:space_no_character_movements = 1
+let g:space_no_search = 1
+let g:space_no_brace = 1

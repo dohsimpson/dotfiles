@@ -1,6 +1,9 @@
 " To use this, put `source $HOME/.vim/vimrc_ft/django.vim` in 
 " your local .vimrc file
 
+""" tags
+set tags+=~/Development/python/django/pythondjango.tags
+
 """ activate snipmate snippets
 if !exists("g:snipMate")
   " g:snipMate is defined in plugin.vimrc
@@ -19,9 +22,6 @@ endfunction
 
 call s:SnippetHelper('python', 'django')
 call s:SnippetHelper('html', 'htmldjango')
-
-""" tags
-set tags+=/Users/enting/Development/python/django/pythondjango.tags
 
 """ command to run django
 " TODO

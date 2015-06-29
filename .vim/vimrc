@@ -26,16 +26,16 @@ Plug 'tpope/vim-eunuch'
 " Plug 'tpope/vim-rsi' " this produce wired behaviour when escape from insert
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-scriptease'
-Plug 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim' " don't use `on` otherwise CtrlP UI display badly
 Plug 'bling/vim-airline'
-Plug 'mbbill/undotree'
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 " Plug 'wellle/targets.vim'
 " Plug 'rhysd/clever-f.vim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/seoul256.vim'
+Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
+" Plug 'junegunn/seoul256.vim'
 " Plug 'mhinz/vim-startify'
 Plug 'ervandew/supertab'
 Plug 'Lokaltog/vim-easymotion'
@@ -55,7 +55,7 @@ Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
 " miscellaneous
 Plug 'mjbrownie/browser.vim', {'on': 'WebBrowser'}
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', {'on': ['NERDTree']}
 " testing
 Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
 Plug 'tpope/vim-dispatch'
@@ -119,7 +119,6 @@ source $HOME/.vim/plugvimrc
 source $HOME/.vim/abbrvimrc
 source $HOME/.vim/tempvimrc
 source $HOME/.vim/colorvimrc
-source $HOME/.vim/temp/vimlib.vim
 
 """ status line
 set laststatus=2

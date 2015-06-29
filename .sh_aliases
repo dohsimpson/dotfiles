@@ -37,6 +37,7 @@ alias histgrep="history | grep"
 alias histail="history | tail -n50"
 alias httpserver="python -m SimpleHTTPServer"
 alias pythonpath='python -c "import sys; print sys.path" | tr "," "\n" | grep -v "egg"'
+alias vw='source `which virtualenvwrapper.sh`'
 
 # git alias
 alias g='git'

@@ -49,7 +49,7 @@ let g:pymode_motion = 0
 let g:pymode_folding = 1
 
 """ ctags
-set tags+=/Users/enting/Development/python/Python-2.7.9-src/Lib/python2corelib.tags " python core lib
+set tags+=~/Development/python/Python-2.7.9-src/Lib/python2corelib.tags " python core lib
 
 """ code folding
 " setlocal foldmethod=indent
