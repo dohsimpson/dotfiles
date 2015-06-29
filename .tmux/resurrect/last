@@ -1,9 +1,0 @@
-pane	china_research_site	0	:vim	0	: 	0	:/Users/enting/Development/python/china_research_site/china_research/china_research	1	vim	:/usr/local/bin/vim
-pane	china_research_site	1	:zsh	0	: 	0	:/Users/enting/Desktop	1	zsh	:
-pane	china_research_site	2	:mysql	0	:-	0	:/Users/enting/Development/python/china_research_site/china_research/china_research	1	zsh	:
-pane	china_research_site	3	:shell	1	:*	0	:/Users/enting	1	zsh	:
-window	china_research_site	0	0	: 	d0c4,156x39,0,0,7
-window	china_research_site	1	0	: 	6896,156x39,0,0,17
-window	china_research_site	2	0	:-	e892,156x39,0,0,23
-window	china_research_site	3	1	:*	e890,156x39,0,0,21
-state	china_research_site	
