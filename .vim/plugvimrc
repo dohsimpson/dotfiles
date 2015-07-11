@@ -83,7 +83,7 @@ let g:SuperTabClosePreviewOnPopupClose = 1
 " """ NerdTree
 " noremap <leader>N :NERDTreeToggle<CR>
 " " Check if NERDTree is open or active
-" function! s:IsNERDTreeOpen()        
+" function! s:IsNERDTreeOpen()
 "   return exists("g:NERDTree") && g:NERDTree.IsOpen()
 " endfunction
 " " Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
@@ -116,7 +116,8 @@ hi EasyMotionTarget2Second ctermbg=none ctermfg=red
 " nmap <silent> ; <Plug>(easymotion-bd-w)
 " vmap <silent> ; <Plug>(easymotion-bd-w)
 " map S <Plug>(easymotion-jumptoanywhere)
-nmap <silent> S <Plug>(easymotion-bd-w)
+" nmap <silent> S <Plug>(easymotion-bd-w)
+nmap <silent> <Space> <Plug>(easymotion-bd-w)
 " vmap <silent> <CR> <Plug>(easymotion-bd-w)
 " nmap F <Plug>(easymotion-Fl2)
 " nmap T <Plug>(easymotion-Tl2)
@@ -256,9 +257,24 @@ let g:startify_change_to_dir = 0
 let g:startify_relative_path = 1
 
 """ ag
-noremap <leader>vv :Ag <cword><CR>
+" turn off the stupid mappings
+let g:ag_apply_lmappings = 0
+let g:ag_apply_qmappings = 0
 
 """ space.vim
-let g:space_no_character_movements = 1
-let g:space_no_search = 1
-let g:space_no_brace = 1
+" let g:space_no_character_movements = 1
+" let g:space_no_search = 1
+" let g:space_no_brace = 1
+
+""" switch
+" gs is the default mapping of switch, this is for lazy loading
+nnoremap gs :Switch<CR>
+
+""" textobject
+" call textobj#user#plugin('php', {
+" \   'code': {
+" \     'pattern': ['<?php\>', '?>'],
+" \     'select-a': 'aP',
+" \     'select-i': 'iP',
+" \   },
+" \ })

@@ -23,4 +23,4 @@
 " 	nnoremap <leader><leader>d :cs find c <C-R>=expand("<cword>")<CR><CR>
 " 	nnoremap <leader><leader>c :cs find d <C-R>=expand("<cword>")<CR><CR>
 " endif
-call RunCmdRegister("!./%<")
+call RunCmdRegister("!gcc -Wall -o %< % && ./%<")

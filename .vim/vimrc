@@ -3,7 +3,7 @@
 " execute pathogen#helptags()
 
 """ vim-plug
-let complete_these_ = ['python', 'vim', 'c', 'c++', 'ruby', 'txt', 'sh', 'markdown', 'html', 'css']
+let complete_these_ = ['python', 'vim', 'c', 'c++', 'cpp', 'ruby', 'txt', 'sh', 'markdown', 'html', 'css', 'sql']
 let easy_grep_on_demand_ = [
       \ "<Plug>EgMapReplaceSelection_R",
       \ "<Plug>EgMapReplaceCurrentWord_R",
@@ -23,7 +23,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-eunuch'
-" Plug 'tpope/vim-rsi' " this produce wired behaviour when escape from insert
+Plug 'tpope/vim-rsi' " this produce wired behaviour when escape from insert
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-scriptease'
 Plug 'kien/ctrlp.vim' " don't use `on` otherwise CtrlP UI display badly
@@ -31,9 +31,9 @@ Plug 'bling/vim-airline'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 " Plug 'wellle/targets.vim'
 " Plug 'rhysd/clever-f.vim'
-Plug 'rbgrouleff/bclose.vim'
+Plug 'rbgrouleff/bclose.vim', {'on': 'Bclose'}
 Plug 'junegunn/vim-peekaboo'
-Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align', {'on': '<Plug>(EasyAlign)'}
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 " Plug 'junegunn/seoul256.vim'
 " Plug 'mhinz/vim-startify'
@@ -58,33 +58,46 @@ Plug 'mjbrownie/browser.vim', {'on': 'WebBrowser'}
 Plug 'scrooloose/nerdtree', {'on': ['NERDTree']}
 " testing
 Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
-Plug 'tpope/vim-dispatch'
+" Plug 'tpope/vim-dispatch'
 Plug 'rizzatti/dash.vim', {'for': complete_these_}
-" Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-vinegar'
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'tpope/vim-speeddating', {'on': 'SpeeddateOn'}
+Plug 'tpope/vim-speeddating'
 Plug 'justinmk/vim-gtfo'
 Plug '~/.vim/plugged/python-make', {'for': 'python'}
 Plug 'alfredodeza/pytest.vim', {'for': 'python', 'on': 'Pytest'}
 Plug 'reinh/vim-makegreen', {'for': complete_these_}
 Plug '~/.vim/plugged/python-mode-extracted', {'for': 'python'}
 " Plug '5long/pytest-vim-compiler', {'for': 'python'}
-Plug 'jmcantrell/vim-virtualenv'
+" Plug 'jmcantrell/vim-virtualenv'
 Plug 'rking/ag.vim', {'on': 'Ag'}
-Plug 'AndrewRadev/linediff.vim'
-Plug 'AndrewRadev/switch.vim'
+Plug 'AndrewRadev/linediff.vim', {'on': 'Linediff'}
+Plug 'AndrewRadev/switch.vim', {'on': 'Switch'}
 Plug 'AndrewRadev/sideways.vim'
 " Plug 'AndrewRadev/writable_search.vim'
 Plug 'stefandtw/quickfix-reflector.vim'
-Plug 'myusuf3/numbers.vim'
+" Plug 'myusuf3/numbers.vim'
 Plug 'vim-scripts/gitignore.vim'
 Plug 'vim-scripts/django.vim', {'for': 'html'} " syntax for django templates
 Plug 'vim-scripts/indentpython.vim', {'for': 'python'}
 Plug 'mattn/emmet-vim', {'for': [ 'html', 'htmldjango' ]}
 Plug 'chrisbra/vim-diff-enhanced', {'on': 'EnhancedDiff'}
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'spiiph/vim-space'
-" Plug 'ekalinin/Dockerfile.vim'
+" Plug 'spiiph/vim-space'
+Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
+Plug 'kana/vim-textobj-user'
+Plug 'tpope/vim-markdown', {'for': 'markdown'}
+" Plug 'thinca/vim-ref'
+Plug 'thinca/vim-quickrun', {'for': complete_these_}
+Plug 'benmills/vimux'
+Plug 'leshill/vim-json', {'for': 'json'}
+Plug 'tpope/vim-sleuth'
+" Plug 'hdima/python-syntax'
+Plug 'chrisbra/NrrwRgn'
+" nginx syntax highlighting
+Plug 'evanmiller/nginx-vim-syntax'
+Plug 'tpope/vim-capslock'
+Plug 'vim-scripts/sql.vim--Stinson'
 call plug#end()
 
 """ basic
@@ -96,6 +109,7 @@ filetype plugin on " this is already turned on by vim-sensible
 runtime macros/matchit.vim
 syntax on
 set number
+set relativenumber
 set nrformats=hex,alpha
 set hidden
 set title " set terminal window title
@@ -105,6 +119,9 @@ set ts=4 sts=4 sw=4 et
 set shortmess=at
 set shell=/bin/zsh
 set noswapfile
+
+""" fold
+set foldlevel=99
 
 """ scroll (faster)
 set scrolloff=3
@@ -235,6 +252,8 @@ command! LoadSession call <SID>LoadSession()
 command! SaveSession call <SID>SaveSession()
 
 """ autocmd
+"" remove trailing whitespace on save(caution when editing other's code)
+autocmd BufWritePre * :%s/\s\+$//e
 "" Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
   \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -249,9 +268,10 @@ autocmd FileType html setlocal ts=2 sts=2 sw=2 noet
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 et
 autocmd FileType htmldjango setlocal ts=2 sts=2 sw=2 noet
 autocmd FileType css setlocal ts=2 sts=2 sw=2 noet
-autocmd FileType c setlocal ts=4 sts=4 sw=4 et
+autocmd FileType c setlocal ts=4 sts=4 sw=4 et iskeyword=a-z,A-Z,48-57,_,.,-,>
 autocmd FileType help setlocal et
 autocmd FileType gitcommit setlocal spell
+autocmd FileType markdown setlocal ts=4 sts=4 sw=4 et spell
 " autocmd BufNewFile,BufRead .gitignore set filetype=gitignore
 
 """ function definitions
@@ -452,6 +472,14 @@ noremap <C-k> <Nop>
 noremap <C-l> <Nop>
 noremap <C-Tab> <Nop>
 noremap <C-S-Tab> <Nop>
+
+""" better visual bindings
+" use dot to repeat to each line
+" (source: https://danielmiessler.com/study/vim/)
+vnoremap . :norm.<CR>
+" yand in visual mode does not move cursor to the beginning
+" (source: http://stackoverflow.com/questions/3806629/yank-a-region-in-vim-without-the-cursor-moving-to-the-top-of-the-block)
+vnoremap y ygv<Esc>
 
 """ personal commands
 command! Filepath echo expand('%:p')

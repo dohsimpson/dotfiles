@@ -12,8 +12,9 @@ alias ta="tmux attach-session -t"
 alias tl="tmux list-sessions"
 alias tn="tmux new-session"
 alias tan="tmux attach || tmux new"
-alias speedtest='curl -o /dev/null http://speedtest.wdc01.softlayer.com/downloads/test100.zip'
-alias v='vim'
+alias speedtest='wget --output-document=/dev/null http://speedtest.wdc01.softlayer.com/downloads/test500.zip'
+alias speedtest2='wget --output-document=/dev/null http://cachefly.cachefly.net/400mb.test' # alternative speedtest
+# alias v='vim'
 alias vim-none='vim -u NONE -N'
 alias vim-hack='vim -u NONE -N -S ~/.vim/hackervimrc'
 alias viml='vim -c "normal '\''0"' # vim last
@@ -38,6 +39,7 @@ alias histail="history | tail -n50"
 alias httpserver="python -m SimpleHTTPServer"
 alias pythonpath='python -c "import sys; print sys.path" | tr "," "\n" | grep -v "egg"'
 alias vw='source `which virtualenvwrapper.sh`'
+alias sshnohost='ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null'
 
 # git alias
 alias g='git'
@@ -86,12 +88,15 @@ alias di="docker images"
 # Get container IP
 alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
 # Run deamonized container, e.g., $dkd base /bin/echo hello
-alias drun="docker run"
-alias drund="docker run -d"
+alias dr="docker run"
+alias drd="docker run -d"
 # Run interactive container, e.g., $dki base /bin/bash
-alias druni="docker run -it"
+alias dri="docker run -it"
+alias drirm="docker run -it --rm"
 # Stop all containers
 dstop() { docker stop $(docker ps -a -q); }
+# Stop all containers faster
+dkill() { docker kill $(docker ps -a -q); }
 # Remove all non-running containers
 drm() { docker rm $(docker ps -a -q); }
 # Remove all containers
@@ -102,8 +107,16 @@ alias drmf='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
 dcleani() { docker rmi $(docker images -q -f dangling=true); }
 # Remove all images
 drmi() { docker rmi $(docker images -a -q); }
-# Dockerfile build, e.g., $dbu tcnksm/test 
-dbuild() { docker build -t=$1 .; }
+# Dockerfile build, e.g., $dbu tcnksm/test
+dbuild() {
+    if [ -z $1 ]; then
+        echo "docker build -t=`basename $PWD` ."
+        docker build -t=`basename $PWD` .
+    else
+        echo "docker build -t=$1 ."
+        docker build -t=$1 .
+    fi
+}
 # Show all alias related docker
 dalias() { alias | grep 'docker' | sed "s/^\([^=]*\)=\(.*\)/\1 => \2/"| sed "s/['|\']//g" | sort; }
 # personal
@@ -111,51 +124,54 @@ alias dhello="docker run -it --rm -p 80:8000 crccheck/hello-world"
 alias dh="docker help"
 alias drmi="docker rmi"
 dbase() {
-    local cmd="docker run -it"
-    local image="debian:wheezy"
-    local arg="/bin/bash"
+    local cmd="docker run -it --rm"
+    local image="devbox" # used to be ubuntu:trusty
     if [ $# -eq 0 ]; then
-        eval "$cmd $image $arg"
+        echo "$cmd $image"
+        eval "$cmd $image"
     else
-        eval "$cmd $@ $image $arg"
+        echo "$cmd $@ $image"
+        eval "$cmd $@ $image"
     fi
 }
 da() {
     docker start $1 && docker attach $1
 }
+db() { docker build -t="$1" .; }
+alias dc="docker-compose"
 
 # Defines transfer alias and provides easy command line file and folder sharing.
 #
 # Authors:
 #   Remco Verhoef <remco@dutchcoders.io>
 #
-transfer() { 
+transfer() {
     if (( ! $+commands[curl] )); then
         echo "No curl, cannot use function transfer"
     fi
     # check arguments
-    if [ $# -eq 0 ]; 
-    then 
+    if [ $# -eq 0 ];
+    then
         echo "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"
         return 1
     fi
- 
+
     # get temporarily filename, output is written to this file show progress can be showed
     tmpfile=$( mktemp -t transferXXX )
-    
+
     # upload stdin or file
     file=$1
- 
-    if tty -s; 
-    then 
-        basefile=$(basename "$file" | sed -e 's/[^a-zA-Z0-9._-]/-/g') 
- 
+
+    if tty -s;
+    then
+        basefile=$(basename "$file" | sed -e 's/[^a-zA-Z0-9._-]/-/g')
+
         if [ ! -e $file ];
         then
             echo "File $file doesn't exists."
             return 1
         fi
-        
+
         if [ -d $file ];
         then
             # zip directory and transfer
@@ -167,14 +183,14 @@ transfer() {
             # transfer file
             curl --progress-bar --upload-file "$file" "https://transfer.sh/$basefile" >> $tmpfile
         fi
-    else 
+    else
         # transfer pipe
         curl --progress-bar --upload-file "-" "https://transfer.sh/$file" >> $tmpfile
     fi
-   
+
     # cat output link
     cat $tmpfile
- 
+
     # cleanup
     rm -f $tmpfile
 }
@@ -210,4 +226,30 @@ killit() {
 
 mkdirc() {
     mkdir -p $1 && cd $1
+}
+
+# watchfile() {
+#     local past="past"
+#     local now="now"
+#     local file="$1"
+#     shift
+#     local cmd="$*"
+#     while true; do
+#         now="`stat $file`"
+#         if [ "$now" != "$past" ]; then
+#             echo "$past"
+#             eval $cmd
+#             past="$now"
+#         fi
+#         sleep 1
+#     done
+# }
+
+tmux_split() {
+    tmux new-window -n "$1 panes"
+    tmux select-layout 'tiled' > /dev/null
+    for i in $(seq 2 $1); do
+        tmux split-window
+        tmux select-layout 'tiled' > /dev/null
+    done
 }

@@ -10,16 +10,21 @@ if [ `uname -s` = 'Darwin' ]; then
     export MAC=1
 fi
 
-# [[ $- != *i* ]] && return
-# if [[ -z "$TMUX" ]] ;then
-#     ID="`tmux ls 2>/dev/null | grep -vm1 attached | cut -d: -f1`" # get the id of a deattached session
-#     if [[ -z "$ID" ]] ;then # if not available create a new one
-#         tmux new-session
-#     else
-#         tmux attach-session -t "$ID" # if available attach to it
-#     fi
-#     # reset # fix vim wired bug after exiting from tmux
-# fi
+# set PATH
+if ! [ -z "$MAC" ]; then
+    PATH="$PATH:/Users/enting/.gem/ruby/2.0.0/bin"
+fi
+
+[[ $- != *i* ]] && return
+if [[ -z "$MAC" ]] && [[ -z "$TMUX" ]] ;then
+    ID="`tmux ls 2>/dev/null | grep -vm1 attached | cut -d: -f1`" # get the id of a deattached session
+    if [[ -z "$ID" ]] ;then # if not available create a new one
+        tmux new-session
+    else
+        tmux attach-session -t "$ID" # if available attach to it
+    fi
+    # reset # fix vim wired bug after exiting from tmux
+fi
 
 # Source Prezto.
 if [ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]; then
@@ -60,8 +65,9 @@ precmd () {
     vcs_info
 }
 setopt prompt_subst
-# PROMPT='%B%F{green}%c%f%b %B%F%f%b'
-PROMPT='%B%F{green}%c%f%b ${vcs_info_msg_0_}'
+PROMPT_HOSTNAME="%m"
+! [ -z $MAC ] && PROMPT_HOSTNAME="✪"
+PROMPT='%F{blue}$PROMPT_HOSTNAME %f%B%F{green}%c%f%b ${vcs_info_msg_0_}'
 
 # update prompt if start from vim
 VIM_PROMPT_PATTERN="(vim)"
@@ -90,7 +96,8 @@ bindkey '^r' history-incremental-search-backward
 export KEYTIMEOUT=1
 # mode indicator at right prompt
 function zle-line-init zle-keymap-select {
-    RPS1="${${KEYMAP/vicmd/N}/(main|viins)/I}"
+    local NORMAL_PROMPT="%F{red}N%f"
+    RPS1="${${KEYMAP/vicmd/$NORMAL_PROMPT}/(main|viins)/}"
     RPS2=$RPS1
     zle reset-prompt
 }

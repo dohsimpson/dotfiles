@@ -1,6 +1,6 @@
 """ run
 " call RunCmdRegister(":!/usr/local/bin/python %")
-call RunCmdRegister(":make! % | clast")
+" call RunCmdRegister(":make! % | clast")
 function! PytestHelper(scope)
   if empty(a:scope)
     " use last mode

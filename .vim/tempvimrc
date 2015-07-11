@@ -12,6 +12,11 @@ inoremap <C-BS> <C-w>
 noremap <F1> <C-^>
 noremap <C-w> :w<CR>
 
+" jump out of bracket quickly
+" source: http://stackoverflow.com/questions/11037825/vim-get-out-of-parenthesis-brackets-etc
+inoremap <C-e> <C-o>A
+nnoremap <C-e> A
+
 " function! JumpToPrevWord()
 "     normal! b
 "     while strpart(getline('.'), col('.')-1, 1) !~ '\w'
@@ -146,7 +151,7 @@ class MyIO(io.TextIOBase):
         import vim
         self.vim = vim
         vim.command("new")
-        
+
     def readline(self):
         DEBUG_PROMPT = "(pdb)"
         # XXX it seems that there's no way for vim to jump out of waiting for input
