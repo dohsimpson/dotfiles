@@ -12,7 +12,7 @@ fi
 
 # set PATH
 if ! [ -z "$MAC" ]; then
-    PATH="$PATH:/Users/enting/.gem/ruby/2.0.0/bin"
+    PATH="$PATH:/Users/enting/.gem/ruby/2.0.0/bin"":/Users/enting/.cabal/bin"
 fi
 
 [[ $- != *i* ]] && return
@@ -44,11 +44,6 @@ if [ -f ~/.sh_aliases ]; then
     . ~/.sh_aliases
 fi
 
-# z from brew
-if `command -v brew >/dev/null 2>&1`; then
-    . `brew --prefix`/etc/profile.d/z.sh
-fi
-
 # nice git prompt(taken and modified from http://briancarper.net/blog/570/git-info-in-your-zsh-prompt)
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' stagedstr '%F{green}●'
@@ -76,15 +71,6 @@ if [ -n "$VIM" ]; then
     export PROMPT="$PROMPT%B%F{$VIM_PROMPT_COLOR}$VIM_PROMPT_PATTERN%f%b "
 fi
 
-# source k
-# (lazy load)
-k() {
-    if [ -f ~/Scripts/shell_utils/k.sh ]; then
-        source ~/Scripts/shell_utils/k.sh
-    fi
-    k
-}
-
 # use vi mode
 bindkey -v
 # Use vim cli mode
@@ -103,11 +89,6 @@ function zle-line-init zle-keymap-select {
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
-# source opp for better vim
-# if [ -f ~/Scripts/shell_utils/opp.zsh/opp.zsh ]; then
-#     source ~/Scripts/shell_utils/opp.zsh/opp.zsh
-#     source ~/Scripts/shell_utils/opp.zsh/opp/*.zsh
-# fi
 if `command -v hh >/dev/null 2>&1`; then
     export HISTFILE=~/.zsh_history   # ensure history file visibility
     export HH_CONFIG=hicolor
@@ -115,9 +96,36 @@ if `command -v hh >/dev/null 2>&1`; then
     bindkey -s "^r" "\eqhh\n"      # bind hh to Ctrl-r (for Vi mode check doc)
 fi
 
-# docker
-if `command -v boot2docker > /dev/null 2>&1`; then
-    export DOCKER_HOST=tcp://192.168.59.103:2376
-    export DOCKER_CERT_PATH=$HOME/.boot2docker/certs/boot2docker-vm
-    export DOCKER_TLS_VERIFY=1
+# source my mac specific
+# z from brew
+if `command -v brew >/dev/null 2>&1`; then
+    . `brew --prefix`/etc/profile.d/z.sh
 fi
+
+# source k
+# (lazy load)
+k() {
+    if [ -f ~/Scripts/shell_utils/k.sh ]; then
+        source ~/Scripts/shell_utils/k.sh
+    fi
+    k
+}
+
+# source opp for better vim
+# if [ -f ~/Scripts/shell_utils/opp.zsh/opp.zsh ]; then
+#     source ~/Scripts/shell_utils/opp.zsh/opp.zsh
+#     source ~/Scripts/shell_utils/opp.zsh/opp/*.zsh
+# fi
+
+# docker
+# if `command -v boot2docker > /dev/null 2>&1`; then
+#     export DOCKER_HOST=tcp://192.168.59.103:2376
+#     export DOCKER_CERT_PATH=$HOME/.boot2docker/certs/boot2docker-vm
+#     export DOCKER_TLS_VERIFY=1
+# fi
+
+# more key bindings
+bindkey -s '[D' 'pushd ..\n'
+bindkey -s '[C' 'popd\n'
+bindkey -s '[A' '^p\n'
+bindkey -s '^[[B' 'ls\n'

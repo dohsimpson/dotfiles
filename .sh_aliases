@@ -21,6 +21,7 @@ alias viml='vim -c "normal '\''0"' # vim last
 alias ip='curl ipinfo.io'
 alias colors='for code in {0..255}; do echo -e "\e[38;05;${code}m $code: Test"; done'
 alias cl='clear'
+alias c='cd'
 alias tmp='cd /tmp'
 alias rl='reload'
 alias l='/bin/ls -GFhtr'
@@ -73,6 +74,7 @@ alias grb='git rebase'
 alias gcl='git clone'
 alias gcls='git clone --depth 1'
 alias gd='git diff'
+alias gdiff2='git diff $(git log --pretty=format:%h -2 --reverse | tr "\n" " ")'
 
 # docker aliases from https://github.com/tcnksm/docker-alias
 alias d="docker"
@@ -134,6 +136,8 @@ dbase() {
         eval "$cmd $@ $image"
     fi
 }
+alias dbasev='dbase -v $PWD:/code'
+
 da() {
     docker start $1 && docker attach $1
 }

@@ -3,7 +3,7 @@
 " execute pathogen#helptags()
 
 """ vim-plug
-let complete_these_ = ['python', 'vim', 'c', 'c++', 'cpp', 'ruby', 'txt', 'sh', 'markdown', 'html', 'css', 'sql']
+let complete_these_ = ['python', 'vim', 'c', 'c++', 'cpp', 'ruby', 'txt', 'sh', 'markdown', 'html', 'css', 'sql', 'javascript', 'haskell']
 let easy_grep_on_demand_ = [
       \ "<Plug>EgMapReplaceSelection_R",
       \ "<Plug>EgMapReplaceCurrentWord_R",
@@ -23,10 +23,11 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-rsi' " this produce wired behaviour when escape from insert
+" Plug 'tpope/vim-rsi' " this produce wired behaviour when escape from insert
 Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-scriptease'
+Plug 'tpope/vim-scriptease', {'on': 'ScriptEase'}
 Plug 'kien/ctrlp.vim' " don't use `on` otherwise CtrlP UI display badly
+Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'bling/vim-airline'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 " Plug 'wellle/targets.vim'
@@ -91,13 +92,18 @@ Plug 'tpope/vim-markdown', {'for': 'markdown'}
 Plug 'thinca/vim-quickrun', {'for': complete_these_}
 Plug 'benmills/vimux'
 Plug 'leshill/vim-json', {'for': 'json'}
-Plug 'tpope/vim-sleuth'
+" Plug 'tpope/vim-sleuth'
 " Plug 'hdima/python-syntax'
 Plug 'chrisbra/NrrwRgn'
 " nginx syntax highlighting
 Plug 'evanmiller/nginx-vim-syntax'
 Plug 'tpope/vim-capslock'
 Plug 'vim-scripts/sql.vim--Stinson'
+Plug 'vim-scripts/taglist.vim'
+Plug 'kana/vim-textobj-user', {'for': complete_these_}
+Plug 'Julian/vim-textobj-variable-segment', {'for': complete_these_}
+" Plug 'Raimondi/delimitMate', {'for': complete_these_}
+" Plug 'rainerborene/vim-timetap'
 call plug#end()
 
 """ basic
@@ -130,6 +136,7 @@ nnoremap <C-y> 3<C-y>
 
 """ use ',' as mapleader
 let mapleader = ","
+let maplocalleader = "`"
 
 """ source other vimrc files
 source $HOME/.vim/plugvimrc
@@ -176,7 +183,7 @@ nnoremap <leader>vst :source $HOME/.vim/tempvimrc<CR>
 nnoremap <leader>vca :edit $HOME/.vim/abbrvimrc<CR>
 nnoremap <leader>vcc :edit $MYVIMRC<CR>
 nnoremap <leader>vsc :source $MYVIMRC<CR>
-nnoremap <leader>vcf :edit $HOME/.vim/ftplugin<CR>
+nnoremap <leader>vcf :Ex $HOME/.vim/ftplugin<CR>
 
 """ search(grep)
 " "" change grep to ack/ag if possible
@@ -244,8 +251,8 @@ command! -nargs=0 -bar Qargs execute 'args' <SID>QuickfixFilenames()
 " command! Cnewest :cnewer 1000<CR>
 
 """ window
-nnoremap ` <C-w>
-nnoremap `` <C-w>p
+" nnoremap ` <C-w>
+" nnoremap `` <C-w>p
 
 """ session
 command! LoadSession call <SID>LoadSession()
@@ -443,8 +450,6 @@ noremap ^ 0
 "" default search to very magic
 " nnoremap / /\v
 " vnoremap / /\v
-noremap <leader><leader>p :put +<CR>
-noremap <leader><leader>P :.-1put +<CR>
 noremap <leader>p "+p
 noremap <leader>P "+P
 noremap <leader>]p "+]p
@@ -486,3 +491,4 @@ command! Filepath echo expand('%:p')
 command! So update | source %
 command! DeleteTrailingWS call <SID>DeleteTrailingWS()
 command! Cdd cd %:p:h " cd to the currently opened file's folder
+command! -nargs=? New new <args> | on

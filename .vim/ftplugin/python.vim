@@ -18,11 +18,11 @@ function! PytestHelper(scope)
     execute "Pytest ".g:pytesthelper_last_mode
   endif
 endfunction
-nnoremap <leader>tf :call PytestHelper("file")<CR>
-nnoremap <leader>td :call PytestHelper("function")<CR>
-nnoremap <leader>tc :call PytestHelper("class")<CR>
-nnoremap <leader>tp :call PytestHelper("project")<CR>
-nnoremap <leader>tt :call PytestHelper("")<CR>
+" nnoremap <leader>tf :call PytestHelper("file")<CR>
+" nnoremap <leader>td :call PytestHelper("function")<CR>
+" nnoremap <leader>tc :call PytestHelper("class")<CR>
+" nnoremap <leader>tp :call PytestHelper("project")<CR>
+" nnoremap <leader>tt :call PytestHelper("")<CR>
 
 """ eval
 nnoremap <buffer> <silent> <leader>e :.w !/usr/local/bin/python<CR>
@@ -46,13 +46,13 @@ vnoremap <buffer> <silent> <leader>E :!/usr/local/bin/python<CR>
 
 """ pymode extracted
 let g:pymode_motion = 0
-let g:pymode_folding = 1
+let g:pymode_folding = 0
 
 """ ctags
-set tags+=~/Development/python/Python-2.7.9-src/Lib/python2corelib.tags " python core lib
+setlocal tags+=~/Development/python/Python-2.7.9-src/Lib/python2corelib.tags " python core lib
 
 """ code folding
-" setlocal foldmethod=indent
+setlocal foldmethod=indent
 setlocal foldlevel=99 " don't fold at all
 
 " """ virtualenv
