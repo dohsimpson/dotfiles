@@ -31,6 +31,7 @@ Plug 'tpope/vim-scriptease', {'on': 'ScriptEase'}
 Plug 'kien/ctrlp.vim' " don't use `on` otherwise CtrlP UI display badly
 " Plug 'FelikZ/ctrlp-py-matcher' " doesn't work anymore
 Plug 'bling/vim-airline', {'commit': '67de5f2', 'frozen': 1}
+Plug 'vim-airline/vim-airline-themes'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 " Plug 'wellle/targets.vim'
 " Plug 'rhysd/clever-f.vim'
