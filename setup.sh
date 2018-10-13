@@ -9,3 +9,5 @@ git fetch --all
 git reset --hard origin/master
 
 vim +PlugInstall +qall > /dev/null
+
+reset
