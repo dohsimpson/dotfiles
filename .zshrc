@@ -168,16 +168,15 @@ bindkey -a '\e' vi-cmd-mode
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# zsh syntax highlight (installed through homebrew)
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 # zsh autosuggestions (installed through homebrew)
 # source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # set up react-native android studio
-export ANDROID_HOME=${HOME}/Library/Android/sdk
-export PATH=${PATH}:${ANDROID_HOME}/tools
-export PATH=${PATH}:${ANDROID_HOME}/platform-tools
+if ! [ -z "$MAC" ]; then
+  export ANDROID_HOME=${HOME}/Library/Android/sdk
+  export PATH=${PATH}:${ANDROID_HOME}/tools
+  export PATH=${PATH}:${ANDROID_HOME}/platform-tools
+fi
 
 # source work script
 if ! [ -z "$MAC" ]; then
@@ -191,9 +190,9 @@ export DOCKER_CERT_PATH="/Users/enting/.docker/machine/machines/default"
 export DOCKER_MACHINE_NAME="default"
 
 # iTerm2
-if ! [ -z "$MAC" ]; then
-  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-fi
+# if ! [ -z "$MAC" ]; then
+#   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# fi
 
 # fuck
 # eval $(thefuck --alias)

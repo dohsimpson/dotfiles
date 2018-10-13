@@ -34,8 +34,8 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'prompt' \
   'history-substring-search' \
-  'git'
-  # 'syntax-highlighting'
+  'git' \
+  'syntax-highlighting'
   # 'tmux'
   # 'osx' \ # don't ever use this cause this breaks `cd`
 
