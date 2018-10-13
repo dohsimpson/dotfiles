@@ -1,21 +1,20 @@
-cnoremap <C-r><C-r> \<<C-r><C-w>\>
-
 inoremap <C-l> <C-x><C-L>
 inoremap # <C-v>#
 
-nnoremap <up> <C-u>
-nnoremap <down> <C-d>
-
 inoremap <C-BS> <C-w>
 
-noremap <F1> <C-^>
+" command! MindNodePaste :!cat \'%\' | gsed '/^[ \t]*$/d' | pbcopy && open '/Applications/MindNode Pro.app'
+command! MindNodePaste :w | :exe '!cat ' . shellescape(expand('%')) . " | gsed '/^[ \t]*$/d' | pbcopy && open '/Applications/MindNode Pro.app'"
 
 " swap stuff
-nmap S <Nop>
-nmap Sw diwmzwviwp`zP
-nmap SW diWmzWviWp`zP
-" nnoremap Ss das
-nnoremap Sp dap}p
+" nmap S <Nop>
+" nmap Sw diwmzwviwp'zP
+" " nmap <Plug>SwapWord diwmzwviwp`zP
+" " silent! call repeat#set("\<Plug>SwapWord", -1)
+" " silent! call repeat#set("Sw", -1)
+" nmap SW diWmzWviWp'zP
+" " nnoremap Ss das
+" nnoremap Sp dap}p
 
 " jump out of bracket quickly
 " source: http://stackoverflow.com/questions/11037825/vim-get-out-of-parenthesis-brackets-etc
@@ -27,62 +26,58 @@ nnoremap <C-e> A
 nnoremap <BS> <Nop>
 
 cnoremap %% <C-r>=expand('%:h').'/'<CR>
-noremap ,, <C-^>
 
-" function! NextIndentation(level, direction)
-"   " level is an integer indicate which level to stop(0: same level,
-"   " 1: 1 more indent, -1: 1 less indent, etc.)
-"   " direction is either 1 or -1(1: down, -1: up)
-"   let current_ind = indent(line('.'))
-"   let indent_space = &tabstop
-"   let seeking_indent = current_ind + (indent_space * a:level)
-"   if current_ind == -1
-"     throw "Failure getting indentation for current line"
-"   endif
-"   if a:direction == -1
-"     let c = line('.')
-"     while c > line('0')
-"       let c -= 1
-"       if indent(c) == seeking_indent && getline(c) !~# "^[\s\t]*$"
-"         exe "normal! " . c . "gg"
-"         break
-"       endif
-"     endwhile
-"   elseif a:direction == 1
-"     let c = line('.')
-"     while c < line('$')
-"       let c += 1
-"       if indent(c) == seeking_indent && getline(c) !~# "^[\s\t]*$"
-"         exe "normal! " . c . "gg"
-"         break
-"       endif
-"     endwhile
-"   endif
-" endfunction
-" nnoremap <silent> <C-9> :call NextIndentation(-1, -1)<CR>
-" nnoremap <silent> <C-0> :call NextIndentation(1, 1)<CR>
-" nnoremap <silent> ( :call NextIndentation(0, -1)<CR>
-" nnoremap <silent> ) :call NextIndentation(0, 1)<CR>
-
-" Highlight all instances of word under cursor, when idle.
-" Useful when studying strange source code.
-" Type z/ to toggle highlighting on/off.
-nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
-function! AutoHighlightToggle()
-  let @/ = ''
-  if exists('#auto_highlight')
-    au! auto_highlight
-    augroup! auto_highlight
-    setl updatetime=4000
-    echo 'Highlight current word: off'
-    return 0
-  else
-    augroup auto_highlight
-      au!
-      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-    augroup end
-    setl updatetime=500
-    echo 'Highlight current word: ON'
-    return 1
+function! NextIndentation(level, direction)
+  " level is an integer indicate which level to stop(0: same level,
+  " 1: 1 more indent, -1: 1 less indent, etc.)
+  " direction is either 1 or -1(1: down, -1: up)
+  let current_ind = indent(line('.'))
+  let indent_space = &tabstop
+  let seeking_indent = current_ind + (indent_space * a:level)
+  if current_ind == -1
+    throw "Failure getting indentation for current line"
+  endif
+  if a:direction == -1
+    let c = line('.')
+    while c > line('0')
+      let c -= 1
+      if indent(c) == seeking_indent && getline(c) !~# "^[\s\t]*$"
+        exe "normal! " . c . "gg"
+        break
+      endif
+    endwhile
+  elseif a:direction == 1
+    let c = line('.')
+    while c < line('$')
+      let c += 1
+      if indent(c) == seeking_indent && getline(c) !~# "^[\s\t]*$"
+        exe "normal! " . c . "gg"
+        break
+      endif
+    endwhile
   endif
 endfunction
+nnoremap <silent> <LEFT> :call NextIndentation(-1, -1)<CR>
+nnoremap <silent> <RIGHT> :call NextIndentation(1, 1)<CR>
+nnoremap <silent> <UP> :call NextIndentation(0, -1)<CR>
+nnoremap <silent> <DOWN> :call NextIndentation(0, 1)<CR>
+vnoremap <silent> <LEFT> :call NextIndentation(-1, -1)<CR>
+vnoremap <silent> <RIGHT> :call NextIndentation(1, 1)<CR>
+vnoremap <silent> <UP> :call NextIndentation(0, -1)<CR>
+vnoremap <silent> <DOWN> :call NextIndentation(0, 1)<CR>
+
+function! CopyMatches(reg)
+  let hits = []
+  %s//\=len(add(hits, submatch(0))) ? submatch(0) : ''/ge
+  let reg = empty(a:reg) ? 'p' : a:reg
+  execute 'let @'.reg.' = join(hits, "\n") . "\n"'
+endfunction
+command! -register CopyMatches call CopyMatches(<q-reg>)
+
+
+map <leader>c :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+nnoremap <leader>! :nnoremap <buffer> <nowait> ! :w\\|!
+" noremap \| :w<CR><C-Z>

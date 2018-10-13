@@ -13,3 +13,13 @@ iabbrev liek like
 iabbrev teh the
 iabbrev seperate separate
 iabbrev seperation separation
+
+" arrows
+ia -. ->
+ca -. ->
+ia =. =>
+ca =. =>
+ia ,- <-
+ca ,- <-
+ia ,=. <=>
+ca ,=. <=>

@@ -3,7 +3,8 @@
 " execute pathogen#helptags()
 
 """ vim-plug
-let complete_these_ = ['python', 'vim', 'c', 'c++', 'cpp', 'ruby', 'txt', 'sh', 'markdown', 'html', 'css', 'sql', 'javascript', 'haskell']
+let complete_these_ = ['python', 'java', 'vim', 'c', 'c++', 'cpp', 'ruby', 'txt', 'sh', 'markdown', 'html', 'css', 'sql', 'javascript', 'haskell', 'plaintex']
+let javascript_ft = ['javascript', 'javascript.jsx']
 let easy_grep_on_demand_ = [
       \ "<Plug>EgMapReplaceSelection_R",
       \ "<Plug>EgMapReplaceCurrentWord_R",
@@ -22,18 +23,19 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'jlfwong/vim-mercenary'
 Plug 'tpope/vim-eunuch'
 " Plug 'tpope/vim-rsi' " this produce wired behaviour when escape from insert
-Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-scriptease', {'on': 'ScriptEase'}
 Plug 'kien/ctrlp.vim' " don't use `on` otherwise CtrlP UI display badly
-Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'bling/vim-airline'
+" Plug 'FelikZ/ctrlp-py-matcher' " doesn't work anymore
+Plug 'bling/vim-airline', {'commit': '67de5f2', 'frozen': 1}
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 " Plug 'wellle/targets.vim'
 " Plug 'rhysd/clever-f.vim'
 Plug 'rbgrouleff/bclose.vim', {'on': 'Bclose'}
-Plug 'junegunn/vim-peekaboo'
+" Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align', {'on': '<Plug>(EasyAlign)'}
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 " Plug 'junegunn/seoul256.vim'
@@ -52,15 +54,15 @@ Plug 'michaeljsmith/vim-indent-object', {'for': complete_these_}
 Plug 'fs111/pydoc.vim', {'for': 'python'}
 Plug 'othree/html5.vim', {'for': 'html'}
 Plug 'ap/vim-css-color', {'for': 'css'}
-Plug 'pangloss/vim-javascript', {'for': 'javascript'}
-Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
+Plug 'pangloss/vim-javascript', {'for': javascript_ft}
+Plug 'othree/javascript-libraries-syntax.vim', {'for': javascript_ft}
 " miscellaneous
-Plug 'mjbrownie/browser.vim', {'on': 'WebBrowser'}
+" Plug 'mjbrownie/browser.vim', {'on': 'WebBrowser'}
 Plug 'scrooloose/nerdtree', {'on': ['NERDTree']}
 " testing
 Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
 " Plug 'tpope/vim-dispatch'
-Plug 'rizzatti/dash.vim', {'for': complete_these_}
+" Plug 'rizzatti/dash.vim', {'for': complete_these_}
 Plug 'tpope/vim-vinegar'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'tpope/vim-speeddating'
@@ -70,7 +72,6 @@ Plug 'alfredodeza/pytest.vim', {'for': 'python', 'on': 'Pytest'}
 Plug 'reinh/vim-makegreen', {'for': complete_these_}
 Plug '~/.vim/plugged/python-mode-extracted', {'for': 'python'}
 " Plug '5long/pytest-vim-compiler', {'for': 'python'}
-" Plug 'jmcantrell/vim-virtualenv'
 Plug 'rking/ag.vim', {'on': 'Ag'}
 Plug 'AndrewRadev/linediff.vim', {'on': 'Linediff'}
 Plug 'AndrewRadev/switch.vim', {'on': 'Switch'}
@@ -79,9 +80,9 @@ Plug 'AndrewRadev/sideways.vim'
 Plug 'stefandtw/quickfix-reflector.vim'
 " Plug 'myusuf3/numbers.vim'
 Plug 'vim-scripts/gitignore.vim'
-Plug 'vim-scripts/django.vim', {'for': 'html'} " syntax for django templates
+" Plug 'vim-scripts/django.vim', {'for': 'html'} " syntax for django templates
 Plug 'vim-scripts/indentpython.vim', {'for': 'python'}
-Plug 'mattn/emmet-vim', {'for': [ 'html', 'htmldjango' ]}
+Plug 'mattn/emmet-vim', {'for': [ 'html', 'htmldjango', 'css' ]}
 Plug 'chrisbra/vim-diff-enhanced', {'on': 'EnhancedDiff'}
 Plug 'christoomey/vim-tmux-navigator'
 " Plug 'spiiph/vim-space'
@@ -92,7 +93,6 @@ Plug 'tpope/vim-markdown', {'for': 'markdown'}
 Plug 'thinca/vim-quickrun', {'for': complete_these_}
 Plug 'benmills/vimux'
 Plug 'leshill/vim-json', {'for': 'json'}
-" Plug 'tpope/vim-sleuth'
 " Plug 'hdima/python-syntax'
 Plug 'chrisbra/NrrwRgn'
 " nginx syntax highlighting
@@ -103,7 +103,54 @@ Plug 'vim-scripts/taglist.vim'
 Plug 'kana/vim-textobj-user', {'for': complete_these_}
 Plug 'Julian/vim-textobj-variable-segment', {'for': complete_these_}
 " Plug 'Raimondi/delimitMate', {'for': complete_these_}
+" Plug 'Raimondi/delimitMate'
 " Plug 'rainerborene/vim-timetap'
+" Plug 'bitc/vim-hdevtools', {'for': 'haskell'}
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'eagletmt/ghcmod-vim', {'for': 'haskell'}
+Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
+" Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
+Plug 'Twinside/vim-hoogle', {'for': 'haskell'}
+" Plug 'kien/rainbow_parentheses.vim', {'for': 'haskell'}
+Plug 'travitch/hasksyn', {'for': 'haskell'}
+Plug 'jszakmeister/vim-togglecursor'
+" Plug 'vim-scripts/YankRing.vim'  " unnecessarily maps so much essential keys
+Plug 'tpope/vim-tbone'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug '~/.vim/plugged/vim-dirdiff'
+Plug 'chun-yang/vim-action-macro'
+Plug 'rizzatti/dash.vim'
+Plug 'vimwiki/vimwiki'
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-obsession'
+Plug 'vim-scripts/Add-to-Word-Search'
+Plug 'mattn/webapi-vim'
+Plug 'Valloric/MatchTagAlways', {'for': 'html'}
+Plug 'mattboehm/vim-unstack'
+Plug 'Glench/Vim-Jinja2-Syntax'
+" Plug 'yhat/vim-docstring'
+" Plug 'pearofducks/ansible-vim', {'for': 'yaml', 'do': 'cd ./UltiSnips; python2 generate.py'}
+Plug 'phenomenes/ansible-snippets'
+" Plug 'juliosueiras/vim-terraform-completion', {'for': 'terraform'}
+Plug 'hashivim/vim-terraform', {'for': 'terraform'}
+" Plug 'Shougo/deoplete.nvim'
+" Plug 'roxma/nvim-yarp'
+" Plug 'roxma/vim-hug-neovim-rpc'
+" Plug 'Shougo/neco-syntax'
+" Plug 'zchee/deoplete-jedi'
+" Plug 'tpope/vim-ragtag'
+"" frontend
+" html
+Plug 'alvan/vim-closetag'
+" vue
+Plug 'posva/vim-vue'
+" react
+" Plug 'mxw/vim-jsx'
+Plug 'justinj/vim-react-snippets'
+" js others
+Plug 'kchmck/vim-coffee-script', {'for': 'coffee'}
+Plug 'leafgarland/typescript-vim'
+Plug 'jbgutierrez/vim-babel'
 call plug#end()
 
 """ basic
@@ -119,11 +166,12 @@ set relativenumber
 set nrformats=hex,alpha
 set hidden
 set title " set terminal window title
+set titleold=
 set directory=~/.vim/swp,.
 set lazyredraw
 set ts=4 sts=4 sw=4 et
 set shortmess=at
-set shell=/bin/zsh
+set shell=/bin/bash
 set noswapfile
 
 """ fold
@@ -131,12 +179,10 @@ set foldlevel=99
 
 """ scroll (faster)
 set scrolloff=3
-nnoremap <C-e> 3<C-e>
-nnoremap <C-y> 3<C-y>
 
 """ use ',' as mapleader
 let mapleader = ","
-let maplocalleader = "`"
+" let maplocalleader = "`"
 
 """ source other vimrc files
 source $HOME/.vim/plugvimrc
@@ -148,12 +194,16 @@ source $HOME/.vim/colorvimrc
 set laststatus=2
 " set statusline=%<%f\ %h%m%r%=[%l/%L]\ %q%y\ %%%p
 
+""" cursor position
+set cursorcolumn
+
 """ autocomplete
 set wildignore+=*.a,*.o
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
 set wildignore+=.DS_Store,.git,.hg,.svn
 set wildignore+=*~,*.swp,*.tmp
 set wildignore+=*.pyc,*.pyo
+set wildignore+=*.po
 
 """ enable mouse
 set mouse+=a
@@ -183,7 +233,7 @@ nnoremap <leader>vst :source $HOME/.vim/tempvimrc<CR>
 nnoremap <leader>vca :edit $HOME/.vim/abbrvimrc<CR>
 nnoremap <leader>vcc :edit $MYVIMRC<CR>
 nnoremap <leader>vsc :source $MYVIMRC<CR>
-nnoremap <leader>vcf :Ex $HOME/.vim/ftplugin<CR>
+nnoremap <leader>vcf :Ex $HOME/.vim/after/ftplugin<CR>
 
 """ search(grep)
 " "" change grep to ack/ag if possible
@@ -219,19 +269,30 @@ nnoremap <silent> ]a :next<CR>
 nnoremap <silent> [A :first<CR>
 nnoremap <silent> ]A :last<CR>
 
+""" tab list
+nnoremap <silent> <leader>t :tabs<CR>
+nnoremap <silent> [t gT
+nnoremap <silent> ]t gt
+nnoremap <silent> [T :tabfirst<CR>
+nnoremap <silent> ]T :tablast<CR>
+nnoremap <silent> >T :tabmove +
+nnoremap <silent> <T :tabmove -
+" nnoremap <silent> T :tabnew<CR>
+nnoremap <silent> T :tabe %<CR>
+
 """ tag list
-"nnoremap <silent> <leader>t :tselect<CR>
-nnoremap <silent> [t :tprevious<CR>
-nnoremap <silent> ]t :tnext<CR>
-nnoremap <silent> [T :tfirst<CR>
-nnoremap <silent> ]T :tlast<CR>
+nnoremap <silent> <leader>u :tselect<CR>
+nnoremap <silent> [u :tprevious<CR>
+nnoremap <silent> ]u :tnext<CR>
+nnoremap <silent> [U :tfirst<CR>
+nnoremap <silent> ]U :tlast<CR>
 
 """ buffer list
 nnoremap <silent> <leader>b :ls<CR>
-" nnoremap <silent> [b :bprevious<CR>
-" nnoremap <silent> ]b :bnext<CR>
-" nnoremap <silent> [B :bfirst<CR>
-" nnoremap <silent> ]B :blast<CR>
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [B :bfirst<CR>
+nnoremap <silent> ]B :blast<CR>
 
 """ location list
 nnoremap <silent> <leader>l :lopen<CR>
@@ -251,8 +312,8 @@ command! -nargs=0 -bar Qargs execute 'args' <SID>QuickfixFilenames()
 " command! Cnewest :cnewer 1000<CR>
 
 """ window
-" nnoremap ` <C-w>
-" nnoremap `` <C-w>p
+nnoremap ` <C-w>
+nnoremap `` <C-^>
 
 """ session
 command! LoadSession call <SID>LoadSession()
@@ -261,17 +322,20 @@ command! SaveSession call <SID>SaveSession()
 """ autocmd
 "" remove trailing whitespace on save(caution when editing other's code)
 autocmd BufWritePre * :%s/\s\+$//e
+autocmd BufWritePre *.sh :silent !chmod +x <afile>
 "" Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
   \ if line("'\"") > 0 && line("'\"") <= line("$") |
   \   exe "normal! g`\"" |
   \ endif
 "" filetype specific
-autocmd FileType vim set keywordprg= ts=2 sts=2 sw=2 et
+autocmd FileType vim setlocal keywordprg= ts=2 sts=2 sw=2 et
 autocmd FileType ruby setlocal ts=2 sts=2 sw=2 et
 autocmd FileType python setlocal ts=4 sts=4 sw=4 et
 autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noet
 autocmd FileType html setlocal ts=2 sts=2 sw=2 noet
+autocmd FileType xhtml setlocal ts=2 sts=2 sw=2 noet
+autocmd FileType xml setlocal ts=2 sts=2 sw=2 noet
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 et
 autocmd FileType htmldjango setlocal ts=2 sts=2 sw=2 noet
 autocmd FileType css setlocal ts=2 sts=2 sw=2 noet
@@ -279,7 +343,11 @@ autocmd FileType c setlocal ts=4 sts=4 sw=4 et iskeyword=a-z,A-Z,48-57,_,.,-,>
 autocmd FileType help setlocal et
 autocmd FileType gitcommit setlocal spell
 autocmd FileType markdown setlocal ts=4 sts=4 sw=4 et spell
+autocmd FileType haskell setlocal ts=2 sts=2 sw=2 et
+autocmd FileType text setlocal ts=4 sts=4 sw=4 noet spell
 " autocmd BufNewFile,BufRead .gitignore set filetype=gitignore
+autocmd BufNewFile,BufRead crontab.* set nobackup | set nowritebackup " fix crontab -e
+
 
 """ function definitions
 "" visual search word under cursor
@@ -427,6 +495,45 @@ function! Objective(bang, ...)
 endfunction
 command! -bang -nargs=* Objective call Objective('<bang>', <f-args>)
 
+" Zoom / Restore window.
+" from http://stackoverflow.com/a/26551079
+function! s:ZoomToggle() abort
+  if exists('t:zoomed') && t:zoomed
+    execute t:zoom_winrestcmd
+    let t:zoomed = 0
+  else
+    let t:zoom_winrestcmd = winrestcmd()
+    resize
+    vertical resize
+    let t:zoomed = 1
+  endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
+nnoremap <silent> Z :ZoomToggle<CR>
+
+" Highlight all instances of word under cursor, when idle.
+" Useful when studying strange source code.
+" Type z/ to toggle highlighting on/off.
+nnoremap <Leader>* :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+function! AutoHighlightToggle()
+  let @/ = ''
+  if exists('#auto_highlight')
+    au! auto_highlight
+    augroup! auto_highlight
+    setl updatetime=4000
+    echo 'Highlight current word: OFF'
+    return 0
+  else
+    augroup auto_highlight
+      au!
+      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+    augroup end
+    setl updatetime=500
+    echo 'Highlight current word: ON'
+    return 1
+  endif
+endfunction
+
 
 """ use local .vimrc
 set exrc
@@ -440,7 +547,7 @@ set secure
 " vmap df <C-c>
 " omap <BS> <C-c>
 noremap \ :
-noremap : ,
+" noremap : ,  " screw up :map command for some reason
 nnoremap q\ q:
 noremap Y y$
 noremap ' `
@@ -468,7 +575,8 @@ nnoremap dp dp]c
 nnoremap * *N
 nmap vv v$h
 noremap Q gQ
-noremap <C-d> :sh<CR>
+noremap <C-d> :q<CR>
+noremap <C-w> :w<CR>
 " nnoremap <buffer> <CR> <C-]>
 "" mapping used by iTerm
 noremap <C-h> <Nop>

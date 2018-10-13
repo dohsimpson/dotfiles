@@ -1,6 +1,5 @@
 TAB: menu-complete
 
-# set editing-mode vi
 "\e[A": history-search-backward
 "\e[B": history-search-forward
 set completion-ignore-case on
@@ -12,3 +11,5 @@ set bell-style none
 # set show-all-if-unmodified on
 #
 set editing-mode vi
+# set keymap vi
+# set convert-meta on

@@ -1,24 +1,19 @@
 #!/bin/bash
 
-if [ -n "$MAC" ]; then
-    source "$HOME/.sh_aliases_private"
-fi
-
 # shell shortcuts
 alias va="vim ~/.sh_aliases"
 alias vrc="vim ~/.vim/vimrc"
-alias t="tmux"
 alias ta="tmux attach-session -t"
 alias tl="tmux list-sessions"
-alias tn="tmux new-session"
+alias tn="tmux new-session -s"
+alias tnn="tmux new-session"
 alias tan="tmux attach || tmux new"
 alias speedtest='wget --output-document=/dev/null http://speedtest.wdc01.softlayer.com/downloads/test500.zip'
 alias speedtest2='wget --output-document=/dev/null http://cachefly.cachefly.net/400mb.test' # alternative speedtest
 # alias v='vim'
 alias vim-none='vim -u NONE -N'
 alias vim-hack='vim -u NONE -N -S ~/.vim/hackervimrc'
-alias viml='vim -c "normal '\''0"' # vim last
-alias ip='curl ipinfo.io'
+alias ip='curl https://ipinfo.io'
 alias colors='for code in {0..255}; do echo -e "\e[38;05;${code}m $code: Test"; done'
 alias cl='clear'
 alias c='cd'
@@ -35,12 +30,17 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ma='man' # :)
 alias pg='ping google.com'
+alias pgg='ping 172.217.7.14'
 alias histgrep="history | grep"
 alias histail="history | tail -n50"
 alias httpserver="python -m SimpleHTTPServer"
 alias pythonpath='python -c "import sys; print sys.path" | tr "," "\n" | grep -v "egg"'
 alias vw='source `which virtualenvwrapper.sh`'
 alias sshnohost='ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null'
+alias scpnohost='scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null'
+alias nohist='unset HISTFILE'
+alias mnt='mount | column -t'
+alias run-as-cron='/usr/bin/env -i $(cat ~/cron-env)'
 
 # git alias
 alias g='git'
@@ -74,9 +74,44 @@ alias grb='git rebase'
 alias gcl='git clone'
 alias gcls='git clone --depth 1'
 alias gd='git diff'
+alias gdh='git diff HEAD^ HEAD'
 alias gdiff2='git diff $(git log --pretty=format:%h -2 --reverse | tr "\n" " ")'
+alias gundo="git reset 'HEAD~'"
+
+# hg alias (reference: https://github.com/hcgraf/zsh-mercurial)
+alias hc='hg commit'
+alias hcm='hg commit -m'
+alias hb='hg branch'
+alias hbs='hg branches'
+alias hco='hg checkout -c'
+alias hd='hg diff'
+alias hdm='hg diffmerge'
+alias hi='hg incoming'
+alias ho='hg outgoing'
+alias hpl='hg pull -u'
+alias hps='hg push'
+alias hs='hg status'
+alias hsm='hg summary'
+alias hl='hg log'
+alias hrb='hg rollback'
+alias hcam='hg qimport -r tip ; hg qrefresh -e ; hg qfinish tip'  # equivalent to git commit --amend
+alias hun='hg resolve --list'  # list unmerged files
+alias hm='hg merge'
+alias hsv='hg shelve'
+alias hsvm='hg shelve -m'
+alias hsvl='hg shelve --list'
+alias husv='hg unshelve'
+alias har='hg addremove'
+alias ha='hg add'
+alias haa='hg add .'
+alias hrm='hg remove'
+function hmm() {
+    hm "$1" && hcm "merge" && echo "commited!"
+}
 
 # docker aliases from https://github.com/tcnksm/docker-alias
+#alias docker='echo "Use Vagrant Dev docker instead!"'  # temporary when going through the devops book  # TODO remove this line
+alias dm="docker-machine"
 alias d="docker"
 # Get latest container ID
 alias dl="docker ps -l -q"
@@ -94,7 +129,8 @@ alias dr="docker run"
 alias drd="docker run -d"
 # Run interactive container, e.g., $dki base /bin/bash
 alias dri="docker run -it"
-alias drirm="docker run -it --rm"
+alias dr1="docker run -it --rm"
+alias de="docker exec --interactive --tty"
 # Stop all containers
 dstop() { docker stop $(docker ps -a -q); }
 # Stop all containers faster
@@ -126,23 +162,35 @@ alias dhello="docker run -it --rm -p 80:8000 crccheck/hello-world"
 alias dh="docker help"
 alias drmi="docker rmi"
 dbase() {
-    local cmd="docker run -it --rm"
-    local image="devbox" # used to be ubuntu:trusty
-    if [ $# -eq 0 ]; then
-        echo "$cmd $image"
-        eval "$cmd $image"
-    else
-        echo "$cmd $@ $image"
-        eval "$cmd $@ $image"
-    fi
+    eval 'docker run -it --rm $@ devbox'
+}
+dbasep() {
+    eval 'docker run -it $@ devbox'
 }
 alias dbasev='dbase -v $PWD:/code'
-
 da() {
     docker start $1 && docker attach $1
 }
 db() { docker build -t="$1" .; }
 alias dc="docker-compose"
+
+# Kubernetes
+kr1() {
+    image="$1"
+    shift
+    kubectl run -it --rm --image="$image" $*
+}
+
+# aws cli alias
+alias ec2='aws ec2'
+alias s3='aws s3'
+alias elb='aws elb'
+alias iam='aws iam'
+alias rds='aws rds'
+alias route53='aws route53'
+
+# Terraform
+alias t='terraform'
 
 # Defines transfer alias and provides easy command line file and folder sharing.
 #
@@ -232,28 +280,50 @@ mkdirc() {
     mkdir -p $1 && cd $1
 }
 
-# watchfile() {
-#     local past="past"
-#     local now="now"
-#     local file="$1"
-#     shift
-#     local cmd="$*"
-#     while true; do
-#         now="`stat $file`"
-#         if [ "$now" != "$past" ]; then
-#             echo "$past"
-#             eval $cmd
-#             past="$now"
-#         fi
-#         sleep 1
-#     done
-# }
-
 tmux_split() {
     tmux new-window -n "$1 panes"
     tmux select-layout 'tiled' > /dev/null
     for i in $(seq 2 $1); do
         tmux split-window
         tmux select-layout 'tiled' > /dev/null
+    done
+}
+
+function swap() {
+    if [ "$1" -a "$2" ]; then
+        tmp="$1.tmp000"
+        mv "$1" "$tmp"
+        mv "$2" "$1"
+        mv "$tmp" "$2"
+    else
+        false
+    fi
+}
+
+gender() {
+    if [[ $1 == *"@"* ]]; then
+        curl "https://gender-api.com/get?email=$1&ip=auto"
+    else
+        curl "https://gender-api.com/get?name=$1&ip=auto"
+    fi
+}
+
+sleepmin() {
+    m=`bc <<< "60 * $1"`
+    sleep "$m"
+}
+
+watch_file() {
+    # usage: watch_file "myfile" "command arguments"
+    local f="$1"
+    local c="$2"
+    local a b
+    while true; do
+        if [[ "$a" != "$b" ]]; then
+            eval "$c"
+            local a="$b"
+        fi
+        sleep 1
+        local b=`/usr/bin/stat -f%m "$f"`
     done
 }

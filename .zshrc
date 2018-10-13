@@ -12,7 +12,12 @@ fi
 
 # set PATH
 if ! [ -z "$MAC" ]; then
-    PATH="$PATH:/Users/enting/.gem/ruby/2.0.0/bin"":/Users/enting/.cabal/bin"
+    # PATH="$PATH:/Users/enting/.gem/ruby/2.0.0/bin"":/Users/enting/.cabal/bin"
+    PATH="$PATH:/Users/enting/.gem/ruby/2.0.0/bin:/Users/enting/.local/bin"
+    # use GNU utils by default
+    # PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+    PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+    # PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
 fi
 
 [[ $- != *i* ]] && return
@@ -26,6 +31,11 @@ if [[ -z "$MAC" ]] && [[ -z "$TMUX" ]] ;then
     # reset # fix vim wired bug after exiting from tmux
 fi
 
+# show running tmux sessions
+if [[ `tmux list-sessions 2>/dev/null | wc -l` -ne 0 ]] && [[ -z "$TMUX" ]]; then
+    echo "`tmux list-sessions 2>/dev/null | wc -l` tmux sessions running"
+fi
+
 # Source Prezto.
 if [ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -37,39 +47,52 @@ export EDITOR="vim"
 
 
 # aliases
-alias vp="vim ~/.zshrc"
 alias reload='clear; source ~/.zshrc'
 # alias history='history -i'
 if [ -f ~/.sh_aliases ]; then
     . ~/.sh_aliases
 fi
+if [ -n "$MAC" ]; then
+    . ~/.sh_aliases_private
+fi
+
+# completion
+if [ -f ~/.zsh_complrc ]; then
+    . ~/.zsh_complrc
+fi
 
 # nice git prompt(taken and modified from http://briancarper.net/blog/570/git-info-in-your-zsh-prompt)
 autoload -Uz vcs_info
-zstyle ':vcs_info:*' stagedstr '%F{green}●'
-zstyle ':vcs_info:*' unstagedstr '%F{yellow}●'
+zstyle ':vcs_info:*' stagedstr '%F{green}●%f'
+zstyle ':vcs_info:*' unstagedstr '%F{yellow}●%f'
 zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:(hg*|git*):*' get-revision true
+zstyle ':vcs_info:*' enable git hg svn
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{11}%r'
-zstyle ':vcs_info:*' enable git svn
+# zstyle ':vcs_info:*' formats '[%F{blue}%b%f%u%c]'
+zstyle ':vcs_info:*' actionformats '[%F{blue}%b%f%c%u] '
+zstyle ':vcs_info:hg*:*' branchformat '%b|%r'
+zstyle ':vcs_info:hg*:*' hgrevformat '%r'
 precmd () {
     if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
-        zstyle ':vcs_info:*' formats '[%F{blue}%b%c%u%f] '
+        zstyle ':vcs_info:*' formats '[%F{blue}%b%f%c%u] '
     } else {
-        zstyle ':vcs_info:*' formats '[%F{blue}%b%c%u%f%F{red}●%f] '
+        zstyle ':vcs_info:*' formats '[%F{blue}%b%f%c%u%F{red}●%f] '
     }
     vcs_info
 }
 setopt prompt_subst
 PROMPT_HOSTNAME="%m"
 ! [ -z $MAC ] && PROMPT_HOSTNAME="✪"
-PROMPT='%F{blue}$PROMPT_HOSTNAME %f%B%F{green}%c%f%b ${vcs_info_msg_0_}'
+# PROMPT='%F{blue}$PROMPT_HOSTNAME %f%B%F{green}%c%f%b ${vcs_info_msg_0_}'
+PROMPT='%(?.%F{blue}${1:-$PROMPT_HOSTNAME}%f.%F{red}${1:-$PROMPT_HOSTNAME}%f) %f%B%F{blue}%c%f%b ${vcs_info_msg_0_}'
 
-# update prompt if start from vim
-VIM_PROMPT_PATTERN="(vim)"
-VIM_PROMPT_COLOR="red"
-if [ -n "$VIM" ]; then
-    export PROMPT="$PROMPT%B%F{$VIM_PROMPT_COLOR}$VIM_PROMPT_PATTERN%f%b "
-fi
+# # update prompt if start from vim
+# VIM_PROMPT_PATTERN="(vim)"
+# VIM_PROMPT_COLOR="red"
+# if [ -n "$VIM" ]; then
+#     export PROMPT="$PROMPT%B%F{$VIM_PROMPT_COLOR}$VIM_PROMPT_PATTERN%f%b "
+# fi
 
 # use vi mode
 bindkey -v
@@ -80,6 +103,10 @@ bindkey '^N' down-history
 bindkey '^r' history-incremental-search-backward
 # no delay on esc
 export KEYTIMEOUT=1
+
+# use bash-style # comment
+setopt interactivecomments
+
 # mode indicator at right prompt
 function zle-line-init zle-keymap-select {
     local NORMAL_PROMPT="%F{red}N%f"
@@ -89,43 +116,94 @@ function zle-line-init zle-keymap-select {
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
-if `command -v hh >/dev/null 2>&1`; then
-    export HISTFILE=~/.zsh_history   # ensure history file visibility
-    export HH_CONFIG=hicolor
-    # export HH_CONFIG=hicolor,rawhistory
-    bindkey -s "^r" "\eqhh\n"      # bind hh to Ctrl-r (for Vi mode check doc)
-fi
+
+# # change cursor shape by mode
+# # source: https://emily.st/2013/05/03/zsh-vi-cursor/
+# # source: https://gist.github.com/andyfowler/1195581
+# zle-keymap-select () {
+#   if [ ! -z $TMUX ]; then
+#       case $KEYMAP in
+#         vicmd) print -n -- "\EPtmux;\E\E]50;CursorShape=0\C-G\E\\";; # block cursor
+#         viins|main) print -n -- "\EPtmux;\E\E]50;CursorShape=1\C-G\E\\";; # line cursor
+#       esac
+#   else
+#       case $KEYMAP in
+#           vicmd) print -n -- "\E]50;CursorShape=0\C-G";; # block cursor
+#           viins|main) print -n -- "\E]50;CursorShape=1\C-G";; # line cursor
+#       esac
+#   fi
+# }
+# zle -N zle-keymap-select
+
+# preserve last editing mode
+accept-line() { prev_mode=$KEYMAP; zle .accept-line }
+zle-line-init() { zle -K ${prev_mode:-viins} }
+zle -N accept-line
+zle -N zle-line-init
+
+# export HISTFILE=~/.zsh_history   # ensure history file visibility
+export HISTFILE=${HOME}/.history/`date "+%Y-%m"`   # ensure history file visibility
+export HISTSIZE=100000
 
 # source my mac specific
 # z from brew
 if `command -v brew >/dev/null 2>&1`; then
     . `brew --prefix`/etc/profile.d/z.sh
+    export HOMEBREW_GITHUB_API_TOKEN=afd33a76a0d5904c683fdf7e883b1bf690828349
 fi
 
-# source k
-# (lazy load)
-k() {
-    if [ -f ~/Scripts/shell_utils/k.sh ]; then
-        source ~/Scripts/shell_utils/k.sh
-    fi
-    k
-}
+# more key bindings
+# bindkey -s '[D' 'pushd ..\n'
+# bindkey -s '[C' 'popd\n'
+# bindkey -s '[A' '^p\n'
+# bindkey -s '^[[B' 'ls\n'
+# 'v' opens editor in cmd mode is just annoying
+bindkey -a 'v' vi-insert
+bindkey -a 'V' edit-command-line
+bindkey -a -s '|' 'dda fg\n'
+# this fixes the annoying hit escape twice problem
+# as a result: any keybinding starts with escape no longer works
+# detail see: http://superuser.com/questions/516474/escape-not-idempotent-in-zshs-vi-emulation
+bindkey -a '\e' vi-cmd-mode
 
-# source opp for better vim
-# if [ -f ~/Scripts/shell_utils/opp.zsh/opp.zsh ]; then
-#     source ~/Scripts/shell_utils/opp.zsh/opp.zsh
-#     source ~/Scripts/shell_utils/opp.zsh/opp/*.zsh
-# fi
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# zsh syntax highlight (installed through homebrew)
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# zsh autosuggestions (installed through homebrew)
+# source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# set up react-native android studio
+export ANDROID_HOME=${HOME}/Library/Android/sdk
+export PATH=${PATH}:${ANDROID_HOME}/tools
+export PATH=${PATH}:${ANDROID_HOME}/platform-tools
+
+# source work script
+if ! [ -z "$MAC" ]; then
+  source ~/.sh_work
+fi
 
 # docker
-# if `command -v boot2docker > /dev/null 2>&1`; then
-#     export DOCKER_HOST=tcp://192.168.59.103:2376
-#     export DOCKER_CERT_PATH=$HOME/.boot2docker/certs/boot2docker-vm
-#     export DOCKER_TLS_VERIFY=1
-# fi
+export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://192.168.64.5:2376"
+export DOCKER_CERT_PATH="/Users/enting/.docker/machine/machines/default"
+export DOCKER_MACHINE_NAME="default"
 
-# more key bindings
-bindkey -s '[D' 'pushd ..\n'
-bindkey -s '[C' 'popd\n'
-bindkey -s '[A' '^p\n'
-bindkey -s '^[[B' 'ls\n'
+# iTerm2
+if ! [ -z "$MAC" ]; then
+  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+fi
+
+# fuck
+# eval $(thefuck --alias)
+
+# kubernetes
+# export KUBECONFIG=/Users/enting/Development/Kubernetes/google/config:$HOME/.kube/config
+
+# histdb
+if ! [ -z "$MAC" ]; then
+  source $HOME/.history/zsh-histdb/sqlite-history.zsh
+  autoload -Uz add-zsh-hook
+  add-zsh-hook precmd histdb-update-outcome
+fi

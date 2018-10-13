@@ -24,12 +24,6 @@ endfunction
 " nnoremap <leader>tp :call PytestHelper("project")<CR>
 " nnoremap <leader>tt :call PytestHelper("")<CR>
 
-""" eval
-nnoremap <buffer> <silent> <leader>e :.w !/usr/local/bin/python<CR>
-vnoremap <buffer> <silent> <leader>e :w !/usr/local/bin/python<CR>
-nnoremap <buffer> <silent> <leader>E :.!/usr/local/bin/python<CR>
-vnoremap <buffer> <silent> <leader>E :!/usr/local/bin/python<CR>
-
 """ abbrev(beware not to use words too common as they will always get expanded)
 " ia <buffer> ipdb import ipdb; ipdb.set_trace()<C-R>=Eatchar('\s')<CR>
 " ia <buffer> pdb import pdb; pdb.set_trace()<C-R>=Eatchar('\s')<CR>
@@ -52,7 +46,8 @@ let g:pymode_folding = 0
 setlocal tags+=~/Development/python/Python-2.7.9-src/Lib/python2corelib.tags " python core lib
 
 """ code folding
-setlocal foldmethod=indent
+" setlocal foldmethod=indent
+setlocal foldmethod=manual
 setlocal foldlevel=99 " don't fold at all
 
 " """ virtualenv
@@ -91,19 +86,24 @@ setlocal foldlevel=99 " don't fold at all
 """ pydoc
 let g:pydoc_cmd = "/usr/local/bin/python -m pydoc"
 
-"""" the following is python3 specific
-if !exists('g:python3')
-  finish
-endif
+" """" the following is python3 specific
+" if !exists('g:python3')
+"   finish
+" endif
 
 """ run
-nnoremap <buffer> ! :!/usr/local/bin/python3 %<CR>
+nnoremap <buffer> ! :w\|!/usr/bin/env python "%"<CR>
+nnoremap <buffer> + :w\|!/usr/bin/env ipython -i "%"<CR>
 
 """ eval
-nnoremap <buffer> <silent> <leader>e :.w !/usr/local/bin/python3<CR>
-vnoremap <buffer> <silent> <leader>e :w !/usr/local/bin/python3<CR>
-nnoremap <buffer> <silent> <leader>E :.!/usr/local/bin/python3<CR>
-vnoremap <buffer> <silent> <leader>E :!/usr/local/bin/python3<CR>
+nnoremap <buffer> <silent> <leader>e :.w !/usr/bin/env python<CR>
+vnoremap <buffer> <silent> <leader>e :w !/usr/bin/env python<CR>
+nnoremap <buffer> <silent> <leader>E :.!/usr/bin/env python<CR>
+vnoremap <buffer> <silent> <leader>E :!/usr/bin/env python<CR>
+nnoremap <buffer> <silent> <leader>x :.!PYTHONPATH="%:h":"$PWD" python ~/Desktop/doc_test_gen.py "%:p"<CR>
+vnoremap <buffer> <silent> <leader>x :!PYTHONPATH="%:h":"$PWD" python ~/Desktop/doc_test_gen.py "%:p"<CR>
+
+command! -range Doctest :<line1>,<line2>!PYTHONPATH="%:h":"$PWD" python ~/Desktop/doc_test_gen.py "%:p"
 
 """ airline
 "" disable trailing whitespace because syntastic flake8 check this too
