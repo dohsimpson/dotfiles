@@ -151,6 +151,7 @@ if `command -v brew >/dev/null 2>&1`; then
     . `brew --prefix`/etc/profile.d/z.sh
     export HOMEBREW_GITHUB_API_TOKEN=afd33a76a0d5904c683fdf7e883b1bf690828349
 fi
+[ -f ~/.z.sh ] && source ~/.z.sh
 
 # more key bindings
 # bindkey -s '[D' 'pushd ..\n'
