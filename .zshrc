@@ -83,7 +83,7 @@ precmd () {
 }
 setopt prompt_subst
 PROMPT_HOSTNAME="%m"
-! [ -z $MAC ] && PROMPT_HOSTNAME="✪"
+! [ -z $MAC ] && PROMPT_HOSTNAME="✪" || PROMPT_HOSTNAME="$"
 # PROMPT='%F{blue}$PROMPT_HOSTNAME %f%B%F{green}%c%f%b ${vcs_info_msg_0_}'
 PROMPT='%(?.%F{blue}${1:-$PROMPT_HOSTNAME}%f.%F{red}${1:-$PROMPT_HOSTNAME}%f) %f%B%F{blue}%c%f%b ${vcs_info_msg_0_}'
 

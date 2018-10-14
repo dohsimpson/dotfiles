@@ -82,14 +82,14 @@ function prompt_cloud_setup {
   if [[ -n "$1" ]]; then
     prefix="$1"
   else
-    prefix='SSH'
+    prefix='☁'
   fi
 
   # Assign colors.
   if [[ -n "$2" ]]; then
     primary_color="$2"
   else
-    primary_color='red'
+    primary_color='cyan'
   fi
 
   if [[ -n "$3" ]]; then

@@ -1,3 +1,3 @@
 cd ~
-git rm -r .
+git rm -rf .
 rm -rf .git

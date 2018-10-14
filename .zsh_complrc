@@ -1,0 +1,8 @@
+# bash completion compatible (https://stackoverflow.com/questions/3249432/i-have-a-bash-tab-completion-script-is-there-a-simple-way-to-use-it-from-zsh)
+autoload bashcompinit
+bashcompinit
+
+# zsh completion files
+# source /usr/local/bin/aws_zsh_completer.sh # moved to ~/.zsh_completion/
+for i in ~/.zsh_completion/*; do source $i; done
+for i in ~/.bash_completion/*; do source $i; done
