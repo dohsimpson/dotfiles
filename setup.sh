@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
 set -e
 cd ~
@@ -11,3 +11,5 @@ git reset --hard origin/master
 vim +PlugInstall +qall > /dev/null
 
 reset
+
+mv ~/.git ~/.git_dotfile
