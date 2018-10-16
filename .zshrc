@@ -185,10 +185,12 @@ if ! [ -z "$MAC" ]; then
 fi
 
 # docker
-export DOCKER_TLS_VERIFY="1"
-export DOCKER_HOST="tcp://192.168.64.5:2376"
-export DOCKER_CERT_PATH="/Users/enting/.docker/machine/machines/default"
-export DOCKER_MACHINE_NAME="default"
+if ! [ -z "$MAC" ]; then
+  export DOCKER_TLS_VERIFY="1"
+  export DOCKER_HOST="tcp://192.168.64.5:2376"
+  export DOCKER_CERT_PATH="/Users/enting/.docker/machine/machines/default"
+  export DOCKER_MACHINE_NAME="default"
+fi
 
 # iTerm2
 # if ! [ -z "$MAC" ]; then
