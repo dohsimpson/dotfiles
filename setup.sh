@@ -9,6 +9,7 @@ git fetch --all
 git reset --hard origin/master
 
 vim +PlugInstall +qall > /dev/null
+~/.tmux/plugins/tpm/bin/install_plugins
 
 reset
 
