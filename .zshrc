@@ -201,7 +201,9 @@ fi
 # eval $(thefuck --alias)
 
 # kubernetes
-# export KUBECONFIG=/Users/enting/Development/Kubernetes/google/config:$HOME/.kube/config
+if ! [ -z "$MAC" ]; then
+  export KUBECONFIG=$HOME/.kube/config
+fi
 
 # histdb
 if ! [ -z "$MAC" ]; then

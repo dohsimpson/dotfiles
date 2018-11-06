@@ -8,9 +8,9 @@ git remote add origin "https://github.com/dohsimpson/dotfiles"
 git fetch --all
 git reset --hard origin/master
 
-vim +PlugInstall +qall > /dev/null
+mv ~/.git ~/.git_dotfile
+
 ~/.tmux/plugins/tpm/bin/install_plugins
+vim +PlugInstall +qall > /dev/null < /dev/null
 
 reset
-
-mv ~/.git ~/.git_dotfile
