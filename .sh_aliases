@@ -193,6 +193,9 @@ alias route53='aws route53'
 # Terraform
 alias t='terraform'
 
+# Ansible
+alias ap='ansible-playbook'
+
 # Defines transfer alias and provides easy command line file and folder sharing.
 #
 # Authors:
