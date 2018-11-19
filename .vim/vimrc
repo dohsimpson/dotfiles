@@ -47,7 +47,7 @@ Plug 'dohsimpson/vim-macroeditor', {'on': 'MacroEdit'}
 Plug 'vim-scripts/BufOnly.vim', {'on': 'BufOnly'}
 Plug '~/.vim/plugged/vim-easygrep', {'on': easy_grep_on_demand_}
 " programming languages
-Plug 'scrooloose/syntastic', {'for': complete_these_}
+" Plug 'scrooloose/syntastic', {'for': complete_these_}
 Plug 'majutsushi/tagbar', {'for': complete_these_}
 Plug 'dohsimpson/vim-snipmate' | Plug 'MarcWeber/vim-addon-mw-utils' | Plug 'tomtom/tlib_vim'
 Plug 'nathanaelkane/vim-indent-guides', {'for': complete_these_}
@@ -152,6 +152,9 @@ Plug 'justinj/vim-react-snippets'
 Plug 'kchmck/vim-coffee-script', {'for': 'coffee'}
 Plug 'leafgarland/typescript-vim'
 Plug 'jbgutierrez/vim-babel'
+Plug 'w0rp/ale'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'metakirby5/codi.vim'
 call plug#end()
 
 """ basic

@@ -413,3 +413,18 @@ let g:deoplete#enable_at_startup = 1
 """ vim-closetag
 let g:closetag_filetypes = 'html,xml,xhtml,phtml,jsx,vue'
 let g:closetag_xhtml_filetypes = 'xml,xhtml,jsx,vue'  " must be included in g:closetag_filetypes
+
+""" Gutentags
+if executable('rg')
+  let g:gutentags_file_list_command = 'rg --files'
+endif
+
+""" ale
+let g:ale_fixers = {
+      \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \   'python': ['isort', 'autopep8'],
+      \}
+
+""" codi
+let g:codi#log= '/tmp/codi_log'
+" let g:codi#raw=1
