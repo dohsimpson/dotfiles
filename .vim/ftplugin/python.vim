@@ -84,7 +84,7 @@ setlocal foldlevel=99 " don't fold at all
 " endif
 
 """ pydoc
-let g:pydoc_cmd = "/usr/local/bin/python -m pydoc"
+" let g:pydoc_cmd = "/usr/local/bin/python -m pydoc"
 
 " """" the following is python3 specific
 " if !exists('g:python3')
@@ -113,4 +113,4 @@ let g:airline#extensions#whitespace#enabled = 0
 let g:syntastic_python_python_exec = '/usr/local/bin/python3'
 
 """ pydoc
-let g:pydoc_cmd = "/usr/local/bin/python3 -m pydoc"
+" let g:pydoc_cmd = "/usr/local/bin/python3 -m pydoc"

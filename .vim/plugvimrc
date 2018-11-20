@@ -11,6 +11,10 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 """ jedi-vim
 " see $HOME/.vim/ftplugin/python.vim
+let g:jedi#completions_command = ""
+
+""" pydoc
+let g:pydoc_cmd = 'python -m pydoc'
 
 """ airline statusline
 "" setting

@@ -155,6 +155,9 @@ Plug 'jbgutierrez/vim-babel'
 Plug 'w0rp/ale'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'metakirby5/codi.vim'
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'cohama/lexima.vim'
+Plug 'davidhalter/jedi-vim'
 call plug#end()
 
 """ basic
