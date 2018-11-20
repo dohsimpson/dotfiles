@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -e
 cd ~
 ! hash git 2>/dev/null && sudo apt-get install -y git
 git init
