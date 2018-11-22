@@ -1,7 +1,10 @@
 """ ack.vim
-"" enable silver searcher(ag) if possible
+"" enable faster searcher if possible
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
+endif
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep'
 endif
 
 """ ultisnips
