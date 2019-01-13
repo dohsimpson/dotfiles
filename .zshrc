@@ -13,7 +13,7 @@ fi
 # set PATH
 if ! [ -z "$MAC" ]; then
     # PATH="$PATH:/Users/enting/.gem/ruby/2.0.0/bin"":/Users/enting/.cabal/bin"
-    PATH="$PATH:/Users/enting/.gem/ruby/2.0.0/bin:/Users/enting/.local/bin"
+    PATH="$PATH:/Users/enting/.gem/ruby/2.0.0/bin:/Users/enting/.cabal/bin:/Users/enting/.local/bin"
     # use GNU utils by default
     # PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
     PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
@@ -149,7 +149,7 @@ export HISTSIZE=100000
 # z from brew
 if `command -v brew >/dev/null 2>&1`; then
     . `brew --prefix`/etc/profile.d/z.sh
-    export HOMEBREW_GITHUB_API_TOKEN=afd33a76a0d5904c683fdf7e883b1bf690828349
+    export HOMEBREW_GITHUB_API_TOKEN=bfc33844f4d77154b6a2ab726549a1c6f0215eaf
 fi
 [ -f ~/.z ] || touch ~/.z  # fix first time z error
 [ -f ~/.z.sh ] && source ~/.z.sh
@@ -209,6 +209,11 @@ fi
 # histdb
 if ! [ -z "$MAC" ]; then
   source $HOME/.history/zsh-histdb/sqlite-history.zsh
+  # source /Users/enting/.history/zsh-histdb/histdb-interactive.zsh
+  # bindkey '^r' _histdb-isearch
   autoload -Uz add-zsh-hook
   add-zsh-hook precmd histdb-update-outcome
 fi
+
+# flutter
+PATH="/Users/enting/flutter/bin:$PATH"

@@ -9,6 +9,7 @@ alias tn="tmux new-session -s"
 alias tnn="tmux new-session"
 alias tan="tmux attach || tmux new"
 alias tmux-swap-pane="tmux swap-pane -t"
+alias tmux-list-panes='tmux choose-tree -F "#{pane_current_command} #{pane_current_path}"'  # C-s to search, v to toggle preview
 alias speedtest='wget --output-document=/dev/null http://speedtest.wdc01.softlayer.com/downloads/test500.zip'
 alias speedtest2='wget --output-document=/dev/null http://cachefly.cachefly.net/400mb.test' # alternative speedtest
 # alias v='vim'
@@ -343,3 +344,8 @@ watch_file() {
         local b=`/usr/bin/stat -f%m "$f"`
     done
 }
+
+path() {
+    echo $( cd "$(dirname "$1")" ; pwd -P )/$(basename "$1")
+}
+

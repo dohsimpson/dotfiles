@@ -83,7 +83,7 @@ precmd () {
 }
 setopt prompt_subst
 PROMPT_HOSTNAME="%m"
-! [ -z $MAC ] && PROMPT_HOSTNAME="✪"
+! [ -z $MAC ] && PROMPT_HOSTNAME="✪" || PROMPT_HOSTNAME="$"
 # PROMPT='%F{blue}$PROMPT_HOSTNAME %f%B%F{green}%c%f%b ${vcs_info_msg_0_}'
 PROMPT='%(?.%F{blue}${1:-$PROMPT_HOSTNAME}%f.%F{red}${1:-$PROMPT_HOSTNAME}%f) %f%B%F{blue}%c%f%b ${vcs_info_msg_0_}'
 
@@ -151,6 +151,8 @@ if `command -v brew >/dev/null 2>&1`; then
     . `brew --prefix`/etc/profile.d/z.sh
     export HOMEBREW_GITHUB_API_TOKEN=afd33a76a0d5904c683fdf7e883b1bf690828349
 fi
+[ -f ~/.z ] || touch ~/.z  # fix first time z error
+[ -f ~/.z.sh ] && source ~/.z.sh
 
 # more key bindings
 # bindkey -s '[D' 'pushd ..\n'
@@ -184,10 +186,12 @@ if ! [ -z "$MAC" ]; then
 fi
 
 # docker
-export DOCKER_TLS_VERIFY="1"
-export DOCKER_HOST="tcp://192.168.64.5:2376"
-export DOCKER_CERT_PATH="/Users/enting/.docker/machine/machines/default"
-export DOCKER_MACHINE_NAME="default"
+if ! [ -z "$MAC" ]; then
+  export DOCKER_TLS_VERIFY="1"
+  export DOCKER_HOST="tcp://192.168.64.5:2376"
+  export DOCKER_CERT_PATH="/Users/enting/.docker/machine/machines/default"
+  export DOCKER_MACHINE_NAME="default"
+fi
 
 # iTerm2
 # if ! [ -z "$MAC" ]; then
@@ -198,11 +202,15 @@ export DOCKER_MACHINE_NAME="default"
 # eval $(thefuck --alias)
 
 # kubernetes
-# export KUBECONFIG=/Users/enting/Development/Kubernetes/google/config:$HOME/.kube/config
+if ! [ -z "$MAC" ]; then
+  export KUBECONFIG=$HOME/.kube/config
+fi
 
 # histdb
 if ! [ -z "$MAC" ]; then
   source $HOME/.history/zsh-histdb/sqlite-history.zsh
+  # source /Users/enting/.history/zsh-histdb/histdb-interactive.zsh
+  # bindkey '^r' _histdb-isearch
   autoload -Uz add-zsh-hook
   add-zsh-hook precmd histdb-update-outcome
 fi
