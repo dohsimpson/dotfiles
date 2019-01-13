@@ -1,0 +1,19 @@
+:set prompt "λ "
+:seti -XOverloadedStrings
+:set -Wall
+:set -fno-warn-type-defaults
+
+:set -DGHCI
+:set +s
+:set +t
+
+:set -package rio
+:set -package pretty-simple
+
+import RIO
+import Text.Pretty.Simple (pPrint)
+
+:set -interactive-print pPrint
+
+:def hoogle \x -> return $ ":!hoogle \"" ++ x ++ "\""
+:def doc \x -> return $ ":!hoogle --info \"" ++ x ++ "\""
