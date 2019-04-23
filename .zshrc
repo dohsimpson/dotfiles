@@ -187,19 +187,17 @@ fi
 
 # docker
 if ! [ -z "$MAC" ]; then
+  export MACHINE_STORAGE_PATH="/Users/enting/Documents/Virtual Machines/docker-machine/"
   export DOCKER_TLS_VERIFY="1"
-  export DOCKER_HOST="tcp://192.168.64.5:2376"
-  export DOCKER_CERT_PATH="/Users/enting/.docker/machine/machines/default"
-  export DOCKER_MACHINE_NAME="default"
+  export DOCKER_HOST="tcp://192.168.99.100:2376"
+  export DOCKER_CERT_PATH="/Users/enting/Documents/Virtual Machines/docker-machine/machines/dev"
+  export DOCKER_MACHINE_NAME="dev"
 fi
 
 # iTerm2
 # if ! [ -z "$MAC" ]; then
 #   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 # fi
-
-# fuck
-# eval $(thefuck --alias)
 
 # kubernetes
 if ! [ -z "$MAC" ]; then
@@ -216,4 +214,8 @@ if ! [ -z "$MAC" ]; then
 fi
 
 # flutter
-PATH="/Users/enting/flutter/bin:$PATH"
+if [ -n "$MAC" ]; then
+  if [ -d "/Users/enting/flutter/bin" ]; then
+    PATH="/Users/enting/flutter/bin:$PATH"
+  fi
+fi

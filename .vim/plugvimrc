@@ -434,7 +434,8 @@ let g:ale_fixers = {
       \   '*': ['remove_trailing_lines', 'trim_whitespace'],
       \   'python': ['isort', 'autopep8'],
       \}
-let g:ale_linters = {'haskell': ['hlint']}
+let g:ale_linters = {'haskell': ['hlint'],
+      \ 'python': ['mypy', 'flake8', 'pylint']}
 
 """ codi
 let g:codi#log= '/tmp/codi_log'
@@ -473,3 +474,14 @@ let g:codi#log= '/tmp/codi_log'
 " map <Leader>lb :call LanguageClient#textDocument_references()<CR>
 " map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
 " map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
+
+""" coc
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+let $NVIM_COC_LOG_LEVEL = 'debug'

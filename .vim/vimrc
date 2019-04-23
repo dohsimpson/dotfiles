@@ -52,7 +52,7 @@ Plug 'majutsushi/tagbar', {'for': complete_these_}
 Plug 'dohsimpson/vim-snipmate' | Plug 'MarcWeber/vim-addon-mw-utils' | Plug 'tomtom/tlib_vim'
 Plug 'nathanaelkane/vim-indent-guides', {'for': complete_these_}
 Plug 'michaeljsmith/vim-indent-object', {'for': complete_these_}
-Plug 'fs111/pydoc.vim', {'for': 'python'}
+" Plug 'fs111/pydoc.vim', {'for': 'python'}
 Plug 'othree/html5.vim', {'for': 'html'}
 Plug 'ap/vim-css-color', {'for': 'css'}
 Plug 'dohsimpson/vim-bootstrap4-snippets'
@@ -157,23 +157,17 @@ Plug 'w0rp/ale'
 Plug 'dohsimpson/vim-gutentags'
 Plug 'metakirby5/codi.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'cohama/lexima.vim'
+Plug 'cohama/lexima.vim' " close pair
 " Plug 'davidhalter/jedi-vim'
 " Plug 'prabirshrestha/async.vim'
 " Plug 'prabirshrestha/vim-lsp'
 " Plug 'prabirshrestha/asyncomplete.vim'
 " Plug 'prabirshrestha/asyncomplete-lsp.vim'
 " Plug 'yami-beta/asyncomplete-omni.vim'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': './install.sh',
-    \ 'for': 'haskell'
-    \ }
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
 Plug 'dart-lang/dart-vim-plugin'
+" Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+" Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile', 'for': complete_these_}
+" Plug 'rstacruz/vim-closer'
 call plug#end()
 
 """ basic
