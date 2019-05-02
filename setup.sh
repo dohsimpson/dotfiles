@@ -12,4 +12,4 @@ mv ~/.git ~/.git_dotfile
 ~/.tmux/plugins/tpm/bin/install_plugins
 vim +PlugInstall +qall > /dev/null < /dev/null
 
-reset
+reset || true  # docker will fail on reset, so ignore
