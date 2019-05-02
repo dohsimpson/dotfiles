@@ -98,7 +98,7 @@ Plug 'leshill/vim-json', {'for': 'json'}
 " Plug 'hdima/python-syntax'
 Plug 'chrisbra/NrrwRgn'
 " nginx syntax highlighting
-Plug 'evanmiller/nginx-vim-syntax'
+Plug 'rhowardiv/nginx-vim-syntax'
 Plug 'tpope/vim-capslock'
 Plug 'vim-scripts/sql.vim--Stinson'
 Plug 'vim-scripts/taglist.vim'

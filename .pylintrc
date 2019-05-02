@@ -144,7 +144,9 @@ disable=print-statement,
         missing-docstring,
         invalid-name,
         wrong-import-order,
-        fixme
+        fixme,
+        protected-access,
+        no-else-return
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

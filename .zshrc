@@ -219,3 +219,8 @@ if [ -n "$MAC" ]; then
     PATH="/Users/enting/flutter/bin:$PATH"
   fi
 fi
+
+# python better-exception (https://github.com/Qix-/better-exceptions)
+if [ -n "$MAC" ]; then
+  export BETTER_EXCEPTIONS=1
+fi
