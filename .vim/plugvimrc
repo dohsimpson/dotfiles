@@ -58,7 +58,7 @@ let g:airline_mode_map = {
 
 """ ctrlp
 if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
+  let g:ctrlp_user_command = '[ $PWD == $HOME ] && echo "In HOME Directory" || ag %s -i --nocolor --nogroup --hidden
         \ --ignore .git
         \ --ignore .svn
         \ --ignore .hg
@@ -485,3 +485,6 @@ function! s:show_documentation()
   endif
 endfunction
 let $NVIM_COC_LOG_LEVEL = 'debug'
+
+""" vim-kubernetes
+let g:kubernetes_no_async=1

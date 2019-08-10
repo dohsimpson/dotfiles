@@ -81,3 +81,6 @@ map <leader>c :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> t
 
 nnoremap <leader>! :nnoremap <buffer> <nowait> ! :w\\|!
 " noremap \| :w<CR><C-Z>
+
+nnoremap <leader>c i<C-r>=<C-r>"
+vnoremap <leader>c c<C-r>=<C-r>"

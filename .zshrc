@@ -45,6 +45,10 @@ fi
 export VISUAL="vim"
 export EDITOR="vim"
 
+# completion
+if [ -f ~/.zsh_complrc ]; then
+    . ~/.zsh_complrc
+fi
 
 # aliases
 alias reload='clear; source ~/.zshrc'
@@ -54,11 +58,6 @@ if [ -f ~/.sh_aliases ]; then
 fi
 if [ -n "$MAC" ]; then
     . ~/.sh_aliases_private
-fi
-
-# completion
-if [ -f ~/.zsh_complrc ]; then
-    . ~/.zsh_complrc
 fi
 
 # nice git prompt(taken and modified from http://briancarper.net/blog/570/git-info-in-your-zsh-prompt)
@@ -205,13 +204,13 @@ if ! [ -z "$MAC" ]; then
 fi
 
 # histdb
-if ! [ -z "$MAC" ]; then
-  source $HOME/.history/zsh-histdb/sqlite-history.zsh
-  # source /Users/enting/.history/zsh-histdb/histdb-interactive.zsh
-  # bindkey '^r' _histdb-isearch
-  autoload -Uz add-zsh-hook
-  add-zsh-hook precmd histdb-update-outcome
-fi
+# if ! [ -z "$MAC" ]; then
+#   source $HOME/.history/zsh-histdb/sqlite-history.zsh
+#   # source /Users/enting/.history/zsh-histdb/histdb-interactive.zsh
+#   # bindkey '^r' _histdb-isearch
+#   autoload -Uz add-zsh-hook
+#   add-zsh-hook precmd histdb-update-outcome
+# fi
 
 # flutter
 if [ -n "$MAC" ]; then
@@ -223,4 +222,21 @@ fi
 # python better-exception (https://github.com/Qix-/better-exceptions)
 if [ -n "$MAC" ]; then
   export BETTER_EXCEPTIONS=1
+fi
+
+# mitmproxy ssl master key logging
+if [ -n "$MAC" ]; then
+  export MITMPROXY_SSLKEYLOGFILE="/Users/enting/.mitmproxy/sslkeylogfile.txt"
+fi
+
+# virtualenvwrapper
+if [ -n "$MAC" ]; then
+  export VIRTUALENVWRAPPER_PYTHON="/usr/local/bin/python3"
+fi
+
+# gcloud
+if [ -n "$MAC" ]; then
+  if [ -d "/usr/local/bin/google-cloud-sdk/bin" ]; then
+    PATH="/usr/local/bin/google-cloud-sdk/bin:$PATH"
+  fi
 fi

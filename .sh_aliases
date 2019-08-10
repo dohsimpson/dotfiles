@@ -17,6 +17,7 @@ alias speedtest2='wget --output-document=/dev/null http://cachefly.cachefly.net/
 alias vim-none='vim -u NONE -N'
 alias vim-hack='vim -u NONE -N -S ~/.vim/hackervimrc'
 alias ip='curl https://ipinfo.io'
+alias ip2='dig +short myip.opendns.com @resolver1.opendns.com'
 alias colors='for code in {0..255}; do echo -e "\e[38;05;${code}m $code: Test"; done'
 alias cl='clear'
 alias c='cd'
@@ -42,6 +43,8 @@ alias scpnohost='scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null'
 alias nohist='unset HISTFILE'
 alias mnt='mount | column -t'
 alias run-as-cron='/usr/bin/env -i $(cat ~/cron-env)'
+alias watch='watch ' # Enable aliases to be watched (ref: https://github.com/luksa/dotfiles/blob/master/.aliases)
+alias sudo='sudo ' # Enable aliases to be sudo'ed (ref: https://github.com/luksa/dotfiles/blob/master/.aliases)
 
 # git alias
 alias g='git'
@@ -120,6 +123,9 @@ alias dl="docker ps -l -q"
 alias dps="docker ps"
 # Get process included stop container
 alias dpsa="docker ps -a"
+alias dvm1="docker volume ls -f dangling=true"
+alias dvm2="docker volume ls"
+alias dvm3='docker volume rm $(docker volume ls -f dangling=true)'
 alias dpa="docker ps -a"
 # Get images
 alias di="docker images"
@@ -132,8 +138,9 @@ alias drd="docker run -d"
 alias dri="docker run -it"
 alias dr1="docker run -it --rm"
 alias de="docker exec --interactive --tty"
+alias dstop="docker stop"
 # Stop all containers
-dstop() { docker stop $(docker ps -a -q); }
+dstopall() { docker stop $(docker ps -a -q); }
 # Stop all containers faster
 dkill() { docker kill $(docker ps -a -q); }
 # Remove all non-running containers
@@ -179,7 +186,7 @@ alias dc="docker-compose"
 kr1() {
     image="$1"
     shift
-    kubectl run -it --rm --image="$image" $*
+    kubectl run -it --rm --restart=Never --image="$image" "tmp-$RANDOM" $*
 }
 
 # aws cli alias
