@@ -16,7 +16,6 @@ alias speedtest2='wget --output-document=/dev/null http://cachefly.cachefly.net/
 # alias v='vim'
 alias vim-none='vim -u NONE -N'
 alias vim-hack='vim -u NONE -N -S ~/.vim/hackervimrc'
-alias ip='curl https://ipinfo.io'
 alias ip2='dig +short myip.opendns.com @resolver1.opendns.com'
 alias colors='for code in {0..255}; do echo -e "\e[38;05;${code}m $code: Test"; done'
 alias cl='clear'
@@ -45,6 +44,7 @@ alias mnt='mount | column -t'
 alias run-as-cron='/usr/bin/env -i $(cat ~/cron-env)'
 alias watch='watch ' # Enable aliases to be watched (ref: https://github.com/luksa/dotfiles/blob/master/.aliases)
 alias sudo='sudo ' # Enable aliases to be sudo'ed (ref: https://github.com/luksa/dotfiles/blob/master/.aliases)
+alias rgg='rg --hidden --no-ignore'
 
 # git alias
 alias g='git'
@@ -65,6 +65,7 @@ alias gcm='git commit -m'
 alias gac='git add . && git commit'
 alias gacm='git add . && git commit -m'
 alias gps='git push'
+alias gpsb='git push -u origin $(git branch --show-current)'
 alias gpl='git pull'
 alias grs='git reset'
 alias grv='git revert'
@@ -78,7 +79,7 @@ alias grb='git rebase'
 alias gcl='git clone'
 alias gcls='git clone --depth 1'
 alias gd='git diff'
-alias gdh='git diff HEAD^ HEAD'
+alias gdh='git diff "HEAD^1" HEAD'
 alias gdiff2='git diff $(git log --pretty=format:%h -2 --reverse | tr "\n" " ")'
 alias gundo="git reset 'HEAD~'"
 
@@ -140,19 +141,29 @@ alias dr1="docker run -it --rm"
 alias de="docker exec --interactive --tty"
 alias dstop="docker stop"
 # Stop all containers
-dstopall() { docker stop $(docker ps -a -q); }
+dstopall() {
+    docker stop $(docker ps -a -q)
+}
 # Stop all containers faster
-dkill() { docker kill $(docker ps -a -q); }
+dkill() {
+    docker kill $(docker ps -a -q)
+}
 # Remove all non-running containers
-drm() { docker rm $(docker ps -a -q); }
+drm() {
+    docker rm $(docker ps -a -q)
+}
 # Remove all containers
 # alias drma='dstop && drm'
 # Stop and Remove all containers
 alias drmf='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
 # Remove all dangling images
-dcleani() { docker rmi $(docker images -q -f dangling=true); }
+dcleani() {
+    docker rmi $(docker images -q -f dangling=true)
+}
 # Remove all images
-drmi() { docker rmi $(docker images -a -q); }
+drmi() {
+    docker rmi $(docker images -a -q)
+}
 # Dockerfile build, e.g., $dbu tcnksm/test
 dbuild() {
     if [ -z $1 ]; then
@@ -164,11 +175,12 @@ dbuild() {
     fi
 }
 # Show all alias related docker
-dalias() { alias | grep 'docker' | sed "s/^\([^=]*\)=\(.*\)/\1 => \2/"| sed "s/['|\']//g" | sort; }
+dalias() {
+    alias | grep 'docker' | sed "s/^\([^=]*\)=\(.*\)/\1 => \2/"| sed "s/['|\']//g" | sort;
+}
 # personal
 alias dhello="docker run -it --rm -p 80:8000 crccheck/hello-world"
 alias dh="docker help"
-alias drmi="docker rmi"
 dbase() {
     eval 'docker run -it --rm $@ devbox'
 }
@@ -179,7 +191,9 @@ alias dbasev='dbase -v $PWD:/code'
 da() {
     docker start $1 && docker attach $1
 }
-db() { docker build -t="$1" .; }
+db() {
+    docker build -t="$1" .;
+}
 alias dc="docker-compose"
 
 # Kubernetes
@@ -353,5 +367,9 @@ watch_file() {
 
 path() {
     echo $( cd "$(dirname "$1")" ; pwd -P )/$(basename "$1")
+}
+
+ip() {
+    curl https://ipinfo.io/$*
 }
 

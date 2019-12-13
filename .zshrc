@@ -45,53 +45,31 @@ fi
 export VISUAL="vim"
 export EDITOR="vim"
 
-# completion
-if [ -f ~/.zsh_complrc ]; then
-    . ~/.zsh_complrc
-fi
-
-# aliases
-alias reload='clear; source ~/.zshrc'
-# alias history='history -i'
-if [ -f ~/.sh_aliases ]; then
-    . ~/.sh_aliases
-fi
-if [ -n "$MAC" ]; then
-    . ~/.sh_aliases_private
-fi
-
-# nice git prompt(taken and modified from http://briancarper.net/blog/570/git-info-in-your-zsh-prompt)
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' stagedstr '%F{green}●%f'
-zstyle ':vcs_info:*' unstagedstr '%F{yellow}●%f'
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:(hg*|git*):*' get-revision true
-zstyle ':vcs_info:*' enable git hg svn
-zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{11}%r'
-# zstyle ':vcs_info:*' formats '[%F{blue}%b%f%u%c]'
-zstyle ':vcs_info:*' actionformats '[%F{blue}%b%f%c%u] '
-zstyle ':vcs_info:hg*:*' branchformat '%b|%r'
-zstyle ':vcs_info:hg*:*' hgrevformat '%r'
-precmd () {
-    if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
-        zstyle ':vcs_info:*' formats '[%F{blue}%b%f%c%u] '
-    } else {
-        zstyle ':vcs_info:*' formats '[%F{blue}%b%f%c%u%F{red}●%f] '
-    }
-    vcs_info
-}
-setopt prompt_subst
-PROMPT_HOSTNAME="%m"
-! [ -z $MAC ] && PROMPT_HOSTNAME="✪" || PROMPT_HOSTNAME="$"
-# PROMPT='%F{blue}$PROMPT_HOSTNAME %f%B%F{green}%c%f%b ${vcs_info_msg_0_}'
-PROMPT='%(?.%F{blue}${1:-$PROMPT_HOSTNAME}%f.%F{red}${1:-$PROMPT_HOSTNAME}%f) %f%B%F{blue}%c%f%b ${vcs_info_msg_0_}'
-
-# # update prompt if start from vim
-# VIM_PROMPT_PATTERN="(vim)"
-# VIM_PROMPT_COLOR="red"
-# if [ -n "$VIM" ]; then
-#     export PROMPT="$PROMPT%B%F{$VIM_PROMPT_COLOR}$VIM_PROMPT_PATTERN%f%b "
-# fi
+# # nice git prompt(taken and modified from http://briancarper.net/blog/570/git-info-in-your-zsh-prompt)
+# autoload -Uz vcs_info
+# zstyle ':vcs_info:*' stagedstr '%F{green}●%f'
+# zstyle ':vcs_info:*' unstagedstr '%F{yellow}●%f'
+# zstyle ':vcs_info:*' check-for-changes true
+# zstyle ':vcs_info:(hg*|git*):*' get-revision true
+# zstyle ':vcs_info:*' enable git hg svn
+# zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{11}%r'
+# # zstyle ':vcs_info:*' formats '[%F{blue}%b%f%u%c]'
+# zstyle ':vcs_info:*' actionformats '[%F{blue}%b%f%c%u] '
+# zstyle ':vcs_info:hg*:*' branchformat '%b|%r'
+# zstyle ':vcs_info:hg*:*' hgrevformat '%r'
+# precmd () {
+#     if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
+#         zstyle ':vcs_info:*' formats '[%F{blue}%b%f%c%u] '
+#     } else {
+#         zstyle ':vcs_info:*' formats '[%F{blue}%b%f%c%u%F{red}●%f] '
+#     }
+#     vcs_info
+# }
+# setopt prompt_subst
+# PROMPT_HOSTNAME="%m"
+# ! [ -z $MAC ] && PROMPT_HOSTNAME="✪" || PROMPT_HOSTNAME="$"
+# # PROMPT='%F{blue}$PROMPT_HOSTNAME %f%B%F{green}%c%f%b ${vcs_info_msg_0_}'
+# PROMPT='%(?.%F{blue}${1:-$PROMPT_HOSTNAME}%f.%F{red}${1:-$PROMPT_HOSTNAME}%f) %f%B%F{blue}%c%f%b ${vcs_info_msg_0_}'
 
 # use vi mode
 bindkey -v
@@ -106,15 +84,15 @@ export KEYTIMEOUT=1
 # use bash-style # comment
 setopt interactivecomments
 
-# mode indicator at right prompt
-function zle-line-init zle-keymap-select {
-    local NORMAL_PROMPT="%F{red}N%f"
-    RPS1="${${KEYMAP/vicmd/$NORMAL_PROMPT}/(main|viins)/}"
-    RPS2=$RPS1
-    zle reset-prompt
-}
-zle -N zle-line-init
-zle -N zle-keymap-select
+# # mode indicator at right prompt
+# function zle-line-init zle-keymap-select {
+#     local NORMAL_PROMPT="%F{red}N%f"
+#     RPS1="${${KEYMAP/vicmd/$NORMAL_PROMPT}/(main|viins)/}"
+#     RPS2=$RPS1
+#     zle reset-prompt
+# }
+# zle -N zle-line-init
+# zle -N zle-keymap-select
 
 # # change cursor shape by mode
 # # source: https://emily.st/2013/05/03/zsh-vi-cursor/
@@ -179,17 +157,12 @@ if ! [ -z "$MAC" ]; then
   export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 fi
 
-# source work script
-if ! [ -z "$MAC" ]; then
-  source ~/.sh_work
-fi
-
 # docker
 if ! [ -z "$MAC" ]; then
-  export MACHINE_STORAGE_PATH="/Users/enting/Documents/Virtual Machines/docker-machine/"
+  export MACHINE_STORAGE_PATH="/Users/enting/VirtualBox VMs/docker-machine/"
   export DOCKER_TLS_VERIFY="1"
   export DOCKER_HOST="tcp://192.168.99.100:2376"
-  export DOCKER_CERT_PATH="/Users/enting/Documents/Virtual Machines/docker-machine/machines/dev"
+  export DOCKER_CERT_PATH="/Users/enting/VirtualBox VMs/docker-machine/machines/dev"
   export DOCKER_MACHINE_NAME="dev"
 fi
 
@@ -202,15 +175,6 @@ fi
 if ! [ -z "$MAC" ]; then
   export KUBECONFIG=$HOME/.kube/config
 fi
-
-# histdb
-# if ! [ -z "$MAC" ]; then
-#   source $HOME/.history/zsh-histdb/sqlite-history.zsh
-#   # source /Users/enting/.history/zsh-histdb/histdb-interactive.zsh
-#   # bindkey '^r' _histdb-isearch
-#   autoload -Uz add-zsh-hook
-#   add-zsh-hook precmd histdb-update-outcome
-# fi
 
 # flutter
 if [ -n "$MAC" ]; then
@@ -240,3 +204,35 @@ if [ -n "$MAC" ]; then
     PATH="/usr/local/bin/google-cloud-sdk/bin:$PATH"
   fi
 fi
+
+# mosh
+export MOSH_ESCAPE_KEY='~'
+
+# powerlevel10k
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+! [ -z $MAC ] && PROMPT_HOSTNAME="✪" || PROMPT_HOSTNAME="$"
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+
+### Always Last
+# completion
+if [ -f ~/.zsh_complrc ]; then
+    . ~/.zsh_complrc
+fi
+
+# aliases
+alias reload='clear; source ~/.zshrc'
+# alias history='history -i'
+if [ -f ~/.sh_aliases ]; then
+    . ~/.sh_aliases
+fi
+if [ -n "$MAC" ]; then
+    . ~/.sh_aliases_private
+fi
+
+# source work script
+if ! [ -z "$MAC" ]; then
+  source ~/.sh_work
+fi
+
